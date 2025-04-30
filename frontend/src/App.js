@@ -5,7 +5,7 @@ import StationPortal from './pages/StationPortal';
 import AdminPortal from './pages/AdminPortal';
 import Login from './components/Login';
 import StationRegister from './pages/StationRegister';
-import StationScan from './pages/StationScan';
+//import StationScan from './pages/StationScan';
 import StationLogs from './pages/StationLogs';
 import AdminStations from './pages/AdminStations';
 import AdminReports from './pages/AdminReports';
