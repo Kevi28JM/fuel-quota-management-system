@@ -21,7 +21,7 @@ function App() {
         <Route path="/admin" element={<AdminPortal />} />
         <Route path="/login" element={<Login />} />
         <Route path="/station/register" element={<StationRegister />} />
-        <Route path="/station/scan" element={<StationScan />} />
+        {/*<Route path="/station/scan" element={<StationScan />} /> */}
         <Route path="/station/logs" element={<StationLogs />} />
         <Route path="/admin/vehicles" element={<AdminVehicles />} />
         <Route path="/admin/stations" element={<AdminStations />} />

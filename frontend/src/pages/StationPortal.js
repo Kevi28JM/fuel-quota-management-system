@@ -18,14 +18,7 @@ function StationPortal() {
           </div>
         </div>
 
-        <div className="col-md-4 mb-4">
-          <div className="card shadow-sm p-4">
-            <h5>Scan Vehicle QR</h5>
-            <Link to="/station/scan" className="btn btn-primary mt-3">
-              Scan QR
-            </Link>
-          </div>
-        </div>
+       
 
         <div className="col-md-4 mb-4">
           <div className="card shadow-sm p-4">
