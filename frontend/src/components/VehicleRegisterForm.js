@@ -5,7 +5,7 @@ import API from '../services/api';
 import { QRCodeSVG } from 'qrcode.react'; // <-- update import
 
 function VehicleRegisterForm() {
-  const [form, setForm] = useState({ plate: '', owner: '', model: '' });
+  const [form, setForm] = useState({ plate: '', owner: '', model: '', chassi: '', engine: '', date: '', type: '', colour: '' });
   const [qr, setQr] = useState('');
 
   const handleSubmit = async (e) => {
@@ -23,9 +23,41 @@ function VehicleRegisterForm() {
     <div className="container mt-5">
       <h2>Vehicle Registration</h2>
       <form onSubmit={handleSubmit}>
-        <input className="form-control mb-2" placeholder="Plate No" onChange={(e) => setForm({ ...form, plate: e.target.value })} />
-        <input className="form-control mb-2" placeholder="Owner Name" onChange={(e) => setForm({ ...form, owner: e.target.value })} />
-        <input className="form-control mb-2" placeholder="Model" onChange={(e) => setForm({ ...form, model: e.target.value })} />
+      <div className="mb-2">
+            <label>Vehicle Number</label>
+            <input className="form-control" placeholder="Vehicle Number" onChange={(e) => setForm({ ...form, plate: e.target.value })} />
+          </div>
+
+          <div className="mb-2">
+            <label>Chassi Number</label>
+            <input className="form-control" placeholder="Chassi Number" onChange={(e) => setForm({ ...form, chassi: e.target.value })} />
+          </div>
+
+          <div className="mb-2">
+            <label>Engine Number</label>
+            <input className="form-control" placeholder="Engine Number" onChange={(e) => setForm({ ...form, engine: e.target.value })} />
+          </div>
+
+          <div className="mb-2">
+            <label>Owner Name</label>
+            <input className="form-control" placeholder="Owner Name" onChange={(e) => setForm({ ...form, owner: e.target.value })} />
+          </div>
+
+          <div className="mb-2">
+            <label>Registered Date</label>
+            <input className="form-control" placeholder="Registered Date" onChange={(e) => setForm({ ...form, date: e.target.value })} />
+          </div>
+
+          <div className="mb-2">
+            <label>Vehicle Type</label>
+            <input className="form-control" placeholder="Vehicle Type" onChange={(e) => setForm({ ...form, type: e.target.value })} />
+          </div>
+
+          <div className="mb-2">
+            <label>Colour</label>
+            <input className="form-control" placeholder="Colour" onChange={(e) => setForm({ ...form, colour: e.target.value })} />
+          </div>
+
         <button className="btn btn-success" type="submit">Register Vehicle</button>
       </form>
 
