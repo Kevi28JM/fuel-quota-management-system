@@ -1,73 +1,59 @@
-// StationRegister.js
-
 import React, { useState } from 'react';
-import axios from 'axios';
+import {registerStation} from '../services/stationService'; // Adjust the path as necessary
 
 const StationRegister = () => {
   const [stationData, setStationData] = useState({
-    stationName: '',
-    ownerName: '',
-    licenseNumber: '',
+    name: '',
     location: '',
-    contactNumber: ''
+    contact: ''
   });
 
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setStationData({ ...stationData, [e.target.name]: e.target.value });
   };
 
+  const validatePhoneNumber = (phone) => /^[0-9]{10}$/.test(phone);
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage('');
-    try {
-      const res = await axios.post('http://localhost:5000/station/register', stationData);
-      setMessage(res.data.message);
-      setStationData({
-        stationName: '',
-        ownerName: '',
-        licenseNumber: '',
-        location: '',
-        contactNumber: ''
-      });
-    } catch (err) {
-      if (err.response && err.response.data) {
-        setMessage(err.response.data.message);
-      } else {
-        setMessage('Error registering station');
-      }
-    }
-  };
+  e.preventDefault();
+  setMessage('');
+
+  if (!validatePhoneNumber(stationData.contact)) {
+    setMessage('Please enter a valid contact number.');
+    return;
+  }
+
+  setIsLoading(true);
+  try {
+    const res = await registerStation(stationData);
+    setMessage(res.message);
+    setStationData({
+      name: '',
+      location: '',
+      contact: ''
+    });
+  } catch (err) {
+    setMessage(err.message || 'Error registering station');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div style={styles.container}>
       <h2>Fuel Station Registration</h2>
-      {message && <p style={styles.message}>{message}</p>}
+      {message && (
+        <p style={message.includes('Error') ? styles.errorMessage : styles.successMessage}>{message}</p>
+      )}
       <form onSubmit={handleSubmit} style={styles.form}>
         <input
           type="text"
-          name="stationName"
+          name="name"
           placeholder="Station Name"
-          value={stationData.stationName}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
-        <input
-          type="text"
-          name="ownerName"
-          placeholder="Owner Name"
-          value={stationData.ownerName}
-          onChange={handleChange}
-          style={styles.input}
-          required
-        />
-        <input
-          type="text"
-          name="licenseNumber"
-          placeholder="License Number"
-          value={stationData.licenseNumber}
+          value={stationData.name}
           onChange={handleChange}
           style={styles.input}
           required
@@ -83,14 +69,16 @@ const StationRegister = () => {
         />
         <input
           type="text"
-          name="contactNumber"
+          name="contact"
           placeholder="Contact Number"
-          value={stationData.contactNumber}
+          value={stationData.contact}
           onChange={handleChange}
           style={styles.input}
           required
         />
-        <button type="submit" style={styles.button}>Register Station</button>
+        <button type="submit" style={styles.button} disabled={isLoading}>
+          {isLoading ? 'Registering...' : 'Register Station'}
+        </button>
       </form>
     </div>
   );
@@ -125,8 +113,12 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer'
   },
-  message: {
+  successMessage: {
     color: 'green',
+    marginBottom: '10px'
+  },
+  errorMessage: {
+    color: 'red',
     marginBottom: '10px'
   }
 };
