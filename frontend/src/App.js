@@ -1,33 +1,48 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
+// Page imports
 import HomePage from './pages/HomePage';
 import VehiclePortal from './pages/VehiclePortal';
 import StationPortal from './pages/StationPortal';
 import AdminPortal from './pages/AdminPortal';
-import Login from './components/Login';
+import Login from './pages/login';
+import Signup from './pages/signUp';
 import StationRegister from './pages/StationRegister';
-//import StationScan from './pages/StationScan';
 import StationLogs from './pages/StationLogs';
 import AdminStations from './pages/AdminStations';
 import AdminReports from './pages/AdminReports';
 import AdminVehicles from './pages/AdminVehicles';
 
+// Component imports
+import Navigation from './components/navigation';
+import Footer from './components/Footer';
+
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/vehicle" element={<VehiclePortal />} />
-        <Route path="/station" element={<StationPortal />} />
-        <Route path="/admin" element={<AdminPortal />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/station/register" element={<StationRegister />} />
-        {/*<Route path="/station/scan" element={<StationScan />} /> */}
-        <Route path="/station/logs" element={<StationLogs />} />
-        <Route path="/admin/vehicles" element={<AdminVehicles />} />
-        <Route path="/admin/stations" element={<AdminStations />} />
-        <Route path="/admin/reports" element={<AdminReports />} />
-        <Route path="/station/portal" element={<StationPortal />} />
-      </Routes>
+      <div className="d-flex flex-column min-vh-100">
+        <Navigation />
+        <main className="flex-grow-1">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/vehicle" element={<VehiclePortal />} />
+            <Route path="/station" element={<StationPortal />} />
+            <Route path="/station/register" element={<StationRegister />} />
+            <Route path="/station/logs" element={<StationLogs />} />
+            <Route path="/station/portal" element={<StationPortal />} />
+            <Route path="/admin" element={<AdminPortal />} />
+            <Route path="/admin/vehicles" element={<AdminVehicles />} />
+            <Route path="/admin/stations" element={<AdminStations />} />
+            <Route path="/admin/reports" element={<AdminReports />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 }
