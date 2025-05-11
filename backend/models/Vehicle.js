@@ -1,10 +1,8 @@
-const mongoose = require('mongoose');
+const express = require('express');
+const router = express.Router();
+const { registerVehicle } = require('../controller/vehicleController');
 
-const vehicleSchema = new mongoose.Schema({
-  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  vehicleNumber: { type: String, unique: true },
-  fuelQuota: { type: Number, default: 50 },
-  qrCode: String
-});
+// Register Vehicle Route
+router.post('/register', registerVehicle);
 
-module.exports = mongoose.model('Vehicle', vehicleSchema);
+module.exports = router;
