@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 // Page imports
 import HomePage from './pages/HomePage';
-import VehiclePortal from './pages/VehiclePortal';
+import VehiclePortal from './pages/VehicleRegister';
 import StationPortal from './pages/StationPortal';
 import AdminPortal from './pages/AdminPortal';
 import Login from './pages/login';
