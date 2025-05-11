@@ -1,0 +1,190 @@
+/* HomePage.css */
+/* Global styles and variables */
+:root {
+  --primary-color: #2c3e504f;
+  --secondary-color: #3498db93;
+  --accent-color: #e74c3c;
+  --light-bg: #f8f9fa;
+  --dark-text: #ffffff;
+  --light-text: #f8f9fa;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+.home {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--dark-text);
+  background-image: url('../assets/background1.jpg'); /* Use an absolute path for the public folder */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh; /* Ensure the background covers the full viewport height */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Jumbotron styles */
+.jumbotron {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: var(--light-text);
+  padding: 3rem 2rem;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.jumbotron .title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.jumbotron .subtitle {
+  font-size: 1.25rem;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+
+.jumbotron .divider {
+  border: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  width: 50%;
+  margin: 1.5rem auto;
+}
+
+.jumbotron .description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Button styles */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: var(--transition);
+  min-width: 150px;
+  text-align: center;
+}
+
+.btn.primary {
+  background-color: var(--accent-color);
+  color: white;
+  border: 2px solid var(--accent-color);
+}
+
+.btn.primary:hover {
+  background-color: transparent;
+  color: var(--accent-color);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px rgba(231, 76, 60, 0.2);
+}
+
+.btn.secondary {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn.secondary:hover {
+  background-color: rgba(255, 255, 255, 0.481);
+  color: var(--primary-color);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Features section */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.feature {
+  height: 100%;
+}
+
+.card {
+  height: 100%;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.656);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  border-top: 4px solid var(--secondary-color);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.card-title {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.card-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  height: 3px;
+  width: 50px;
+  background-color: var(--secondary-color);
+}
+
+.card-text {
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .jumbotron .title {
+    font-size: 2rem;
+  }
+  
+  .jumbotron .subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .jumbotron .description {
+    font-size: 1rem;
+    max-width: 100%;
+  }
+  
+  .features {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/navigation.css'; // Import the CSS file
+import logo from '../assets/logo.png';
 
 const Navigation = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container">
         <Link className="navbar-brand" to="/">
-          Fuel Quota Management
+          <img src={logo} alt="Logo" className="navbar-logo" /> Fuel Quota Management
         </Link>
         <button
           className="navbar-toggler"
