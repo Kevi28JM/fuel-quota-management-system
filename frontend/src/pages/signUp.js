@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { registerUser } from '../services/authServices'; // <-- make sure path is correct
+import { registerUser } from '../services/authServices'; // Ensure the path is correct
+import '../styles/Signup.css'; // Import the CSS file
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -14,110 +15,106 @@ const Signup = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setMessage("Passwords do not match");
+      setMessage('Passwords do not match');
       return;
     }
 
-    const userData = {username: name, email, password, role,
-    };
+    const userData = { username: name, email, password, role };
 
     try {
       const response = await registerUser(userData);
-      setMessage(response.message || "Registered successfully!");
+      setMessage(response.message || 'Registered successfully!');
     } catch (error) {
-      setMessage(error.message || "Registration failed.");
+      setMessage(error.message || 'Registration failed.');
     }
   };
 
   return (
-    <div className="container py-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card">
-            <div className="card-header bg-primary text-white">
-              <h4 className="mb-0">Sign up</h4>
-            </div>
-            <div className="card-body">
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="name" className="form-label">
-                    User Name
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
-                    Email address
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="role" className="form-label">
-                        Role
-                    </label>
-                    <select
-                        className="form-select"
-                        id="role"
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
-                        required
-                    >
-                        <option value="">Select Role</option>
-                        <option value="vehicleOwner">Vehicle Owner</option>
-                        <option value="stationOwner">Station Owner</option>
-                    </select>
-                    </div>
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="confirmPassword" className="form-label">
-                    Confirm Password
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary">
-                  Sign Up
-                </button>
-              </form>
-              <div className="mt-3">
-                <p>
-                  Already have an account?{' '}
-                  <Link to="/login">Login here</Link>
-                </p>
-              <div className="mt-3 text-danger">{message}</div>
+    <div className="signup-page">
+      <div className="signup-container">
+        <div className="signup-card">
+          <div className="signup-header">
+            <h4>Sign Up</h4>
+          </div>
+          <div className="signup-body">
+            <form onSubmit={handleSubmit} className="signup-form">
+              <div className="signup-form-group">
+                <label htmlFor="name" className="signup-form-label">
+                  User Name
+                </label>
+                <input
+                  type="text"
+                  className="signup-form-control"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
               </div>
+              <div className="signup-form-group">
+                <label htmlFor="email" className="signup-form-label">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  className="signup-form-control"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="signup-form-group">
+                <label htmlFor="role" className="signup-form-label">
+                  Role
+                </label>
+                <select
+                  className="signup-form-select"
+                  id="role"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  required
+                >
+                  <option value="">Select Role</option>
+                  <option value="vehicleOwner">Vehicle Owner</option>
+                  <option value="stationOwner">Station Owner</option>
+                </select>
+              </div>
+              <div className="signup-form-group">
+                <label htmlFor="password" className="signup-form-label">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  className="signup-form-control"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="signup-form-group">
+                <label htmlFor="confirmPassword" className="signup-form-label">
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  className="signup-form-control"
+                  id="confirmPassword"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit" className="signup-btn">
+                Sign Up
+              </button>
+            </form>
+            <div className="signup-footer">
+              <p>
+                Already have an account? <Link to="/login">Login here</Link>
+              </p>
+              <div className="signup-message">{message}</div>
             </div>
           </div>
         </div>
