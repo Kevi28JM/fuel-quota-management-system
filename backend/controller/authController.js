@@ -88,3 +88,33 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// Admin signup
+exports.adminSignup = async (req, res) => {
+  const { username, email, password } = req.body;
+
+  try {
+    // Check if admin already exists
+    const [existingAdmin] = await pool.execute(
+      "SELECT * FROM users WHERE email = ?",
+      [email]
+    );
+    if (existingAdmin.length > 0) {
+      return res.status(400).json({ message: "Admin already exists" });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert new admin
+    await pool.execute(
+      "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, 'admin')",
+      [username, email, hashedPassword]
+    );
+
+    res.status(201).json({ message: "Admin registered successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};

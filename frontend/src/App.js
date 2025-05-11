@@ -14,6 +14,7 @@ import StationLogs from './pages/StationLogs';
 import AdminStations from './pages/AdminStations';
 import AdminReports from './pages/AdminReports';
 import AdminVehicles from './pages/AdminVehicles';
+import AdminSignup from './pages/AdminSignup';
 
 // Component imports
 import Navigation from './components/navigation';
@@ -38,6 +39,8 @@ function App() {
             <Route path="/admin/vehicles" element={<AdminVehicles />} />
             <Route path="/admin/stations" element={<AdminStations />} />
             <Route path="/admin/reports" element={<AdminReports />} />
+            <Route path="/admin/signup" element={<AdminSignup />} />
+            {/* Redirect any unknown routes to the home page */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>

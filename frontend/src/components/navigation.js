@@ -31,8 +31,8 @@ const Navigation = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/signup">
-                Sign Up
+              <Link className="nav-link" to="/admin/signup">
+                AdminSign Up
               </Link>
             </li>
           </ul>

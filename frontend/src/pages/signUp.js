@@ -79,7 +79,6 @@ const Signup = () => {
                         <option value="">Select Role</option>
                         <option value="vehicleOwner">Vehicle Owner</option>
                         <option value="stationOwner">Station Owner</option>
-                        <option value="admin">Admin</option>
                     </select>
                     </div>
                 <div className="mb-3">

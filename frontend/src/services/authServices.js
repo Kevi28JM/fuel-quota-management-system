@@ -22,3 +22,15 @@ export const loginUser = async (email, password) => {
     throw err.response?.data || { message: 'Login failed' };
   }
 };
+
+
+// Admin signup service
+
+export const adminSignup = async (formData) => {
+  try {
+    const response = await axios.post(`${API_URL}/admin-signup`, formData);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Signup failed" };
+  }
+};
