@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../services/authServices'; // Adjust path if needed
+import '../styles/Login.css'; // Import the CSS file
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -26,45 +27,43 @@ const Login = () => {
   };
 
   return (
-    <div className="container py-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card">
-            <div className="card-header bg-primary text-white">
-              <h4 className="mb-0">Login</h4>
-            </div>
-            <div className="card-body">
-              {error && <div className="alert alert-danger">{error}</div>}
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email address</label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="password" className="form-label">Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary">Login</button>
-              </form>
-              <div className="mt-3">
-                <p>
-                  Don't have an account? <Link to="/signup">Sign up here</Link>
-                </p>
+    <div className="login-page">
+      <div className="login-container">
+        <div className="login-card">
+          <div className="login-header">
+            <h4>Login</h4>
+          </div>
+          <div className="login-body">
+            {error && <div className="login-alert">{error}</div>}
+            <form onSubmit={handleSubmit} className="login-form">
+              <div className="login-form-group">
+                <label htmlFor="email" className="login-form-label">Email address</label>
+                <input
+                  type="email"
+                  className="login-form-control"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
+              <div className="login-form-group">
+                <label htmlFor="password" className="login-form-label">Password</label>
+                <input
+                  type="password"
+                  className="login-form-control"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit" className="login-btn">Login</button>
+            </form>
+            <div className="login-footer">
+              <p>
+                Don't have an account? <Link to="/signup">Sign up here</Link>
+              </p>
             </div>
           </div>
         </div>
