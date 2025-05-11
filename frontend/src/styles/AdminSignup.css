@@ -1,7 +1,10 @@
 /* General styles for the admin signup page */
 .admin-signup-page {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
+  background-image: url('../assets/adminpage.jpg'); /* Use an absolute path for the public folder */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -10,7 +13,7 @@
 }
 
 .admin-signup-container {
-  background: white;
+  background: rgba(255, 255, 255, 0.455);
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
