@@ -7,7 +7,7 @@ const motorPool = mysql.createPool({
   user: process.env.DMT_DB_USER,
   password: process.env.DMT_DB_PASSWORD,
   database: process.env.DMT_DB_NAME,
-  port: 3306, // Change this if your MySQL runs on a different port
+  port: 3307, 
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,

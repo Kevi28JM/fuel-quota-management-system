@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/vehicle'; // Correct backend URL
+const API_URL = 'http://localhost:5000/api/vehicle'; 
 
 export const registerVehicle = async (vehicleData) => {
   try {
