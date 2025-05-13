@@ -1,56 +1,77 @@
-// ShowQRPage.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
-import { QRCodeSVG } from 'qrcode.react';
-import { useLocation } from 'react-router-dom';
 
 function ShowQRPage() {
   const { user } = useAuth();
-  const [qrList, setQrList] = useState([]);
   const [vehicles, setVehicles] = useState([]);
+  const [selectedVehicleId, setSelectedVehicleId] = useState('');
   const [qrData, setQrData] = useState('');
   const [error, setError] = useState('');
-  const location = useLocation();
-  const vehicleNumber = location.state?.vehicleNumber;
 
-   useEffect(() => {
-    const fetchQR = async () => {
+  useEffect(() => {
+    const fetchVehicles = async () => {
       if (!user?.id) return;
 
-  try {
-      const res = await axios.get(`http://localhost:5001/api/vehicle/by-owner/${user.id}`);
-      console.log('API Response:', res.data);
+      try {
+        const res = await axios.get(`http://localhost:5001/api/vehicle/by-owner/${user.id}`);
+        if (Array.isArray(res.data)) {
+          setVehicles(res.data);
+        } else {
+          console.error('Expected an array but got:', res.data);
+          setVehicles([]);
+          setError('Invalid response format from server.');
+        }
+      } catch (err) {
+        console.error('Failed to load vehicles:', err);
+        setVehicles([]);
+        setError('Could not fetch your vehicles.');
+      }
+    };
 
+    fetchVehicles();
+  }, [user?.id]);
+
+  const handleVehicleChange = async (e) => {
+    const vehicleId = e.target.value;
+    setSelectedVehicleId(vehicleId);
+    setQrData('');
+    setError('');
+
+    if (!vehicleId) return;
+
+    try {
+      const res = await axios.get(`http://localhost:5001/api/vehicle/qr/${vehicleId}`);
       if (res.data?.qrCodeData) {
-        setQrList([res.data]); // wrap single object in array to keep code consistent
+        setQrData(res.data.qrCodeData);
       } else {
-        setError('No QR code found for your vehicle.');
+        setError('QR code not found for selected vehicle.');
       }
     } catch (err) {
-      console.error('Failed to load QR code:', err);
-      setError('Could not fetch your QR code.');
+      console.error('Failed to fetch QR code:', err);
+      setError('Could not fetch QR code for the selected vehicle.');
     }
   };
 
-  fetchQR();
-}, [user?.id]);
-
   return (
     <div style={styles.container}>
-      <h2>Your Vehicle QR Codes</h2>
+      <h2>Your Vehicle QR Code</h2>
 
       {error && <p style={styles.error}>{error}</p>}
 
-      {qrList.length > 0 ? (
-        qrList.map((item, index) => (
-          <div key={index} style={styles.card}>
-            <p><strong>Vehicle:</strong> {item.vehicleNumber}</p>
-            <img src={item.qrCodeData} alt={`QR for ${item.vehicleNumber}`} style={{ width: 256, height: 256 }} />
-          </div>
-        ))
-      ) : (
-        !error && <p>Loading QR codes...</p>
+      <select value={selectedVehicleId} onChange={handleVehicleChange} style={styles.select}>
+        <option value="">-- Select a vehicle --</option>
+        {Array.isArray(vehicles) && vehicles.map((vehicle) => (
+          <option key={vehicle.id} value={vehicle.id}>
+            {vehicle.vehicleNumber || `Vehicle ${vehicle.id}`}
+          </option>
+        ))}
+      </select>
+
+      {qrData && (
+        <div style={styles.card}>
+          <img src={qrData} alt="Vehicle QR Code" style={{ width: 256, height: 256 }} />
+        </div>
       )}
     </div>
   );
@@ -63,13 +84,18 @@ const styles = {
     padding: '20px',
     textAlign: 'center',
   },
+  select: {
+    padding: '10px',
+    fontSize: '16px',
+    marginBottom: '20px',
+  },
   error: {
     color: 'red',
   },
   card: {
     border: '1px solid #ccc',
     padding: '15px',
-    marginBottom: '20px',
+    marginTop: '20px',
     borderRadius: '8px',
     boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
   },

@@ -1,10 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { registerVehicle } = require('../controller/vehicleController');
-const { getQRCode } = require('../controller/vehicleController');
+const { registerVehicle , getVehiclesByOwner , getQRCode } = require('../controller/vehicleController');
 
-// Register Vehicle Route
+// Register a new vehicle
 router.post('/register', registerVehicle);
-router.get('/by-owner/:userId', getQRCode);
+
+// Get all vehicles by owner
+router.get('/by-owner/:userId', getVehiclesByOwner);
+
+// Get QR code for a specific vehicle
+router.get('/qr/:vehicleID', getQRCode);
+
 
 module.exports = router;
