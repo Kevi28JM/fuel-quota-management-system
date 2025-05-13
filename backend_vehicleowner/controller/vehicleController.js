@@ -12,6 +12,7 @@ exports.registerVehicle = async (req, res) => {
     registeredDate,
     vehicleType,
     color,
+    userId, //  1. Added userId from request
   } = req.body;
 
   try {
@@ -23,7 +24,8 @@ exports.registerVehicle = async (req, res) => {
       !ownerName ||
       !registeredDate ||
       !vehicleType ||
-      !color
+      !color ||
+      !userId // ✅ 2. Validate userId
     ) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
@@ -55,8 +57,8 @@ exports.registerVehicle = async (req, res) => {
 
     // Insert new vehicle into the database (fuel_quota_management_system)
     await pool.execute(
-      `INSERT INTO vehicles (vehicleNumber, chassisNumber, engineNumber, ownerName, registeredDate, vehicleType, color, qrCode)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO vehicles (vehicleNumber, chassisNumber, engineNumber, ownerName, registeredDate, vehicleType, color, qrCode, userId)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         vehicleNumber,
         chassisNumber,
@@ -66,6 +68,7 @@ exports.registerVehicle = async (req, res) => {
         vehicleType,
         color,
         qrCode,
+        userId, //Foreign key reference
       ]
     );
 
@@ -75,6 +78,27 @@ exports.registerVehicle = async (req, res) => {
     });
   } catch (error) {
     console.error('Error registering vehicle:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Get QR Code for a registered vehicle
+exports.getQRCode = async (req, res) => {
+  const {  userId  } = req.params;
+
+  try {
+    const [vehicleRows] = await pool.execute(
+      'SELECT qrCode FROM vehicles WHERE userId = ?',
+      [userId]
+    );
+
+    if (vehicleRows.length === 0) {
+      return res.status(404).json({ message: 'Vehicle not found.' });
+    }
+
+    res.status(200).json({ qrCodeData: vehicleRows[0].qrCode });
+  } catch (error) {
+    console.error('Error fetching QR code:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };

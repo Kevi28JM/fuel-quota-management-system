@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../services/authServices'; // Adjust path if needed
+import { loginUser } from '../services/authServices'; 
 import '../styles/Login.css'; // Import the CSS file
+import { useAuth } from '../contexts/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const { login } = useAuth();// Import login from AuthContext
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
+     try {
       const { token, user, redirectPath } = await loginUser(email, password);
 
-      // Save token to localStorage (or cookies)
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
-
-      // Navigate to the role-based portal
-      navigate(redirectPath);
+      // Call context login and let it handle storage + navigation
+      login(user, token, redirectPath);
     } catch (err) {
       setError(err.message || 'Login failed');
     }
