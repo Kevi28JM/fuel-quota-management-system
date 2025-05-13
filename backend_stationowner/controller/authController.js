@@ -4,7 +4,7 @@ const pool = require("../config/db");
 
 // uer registration
 exports.register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body;
 
   try {
     // Check if user already exists
@@ -22,7 +22,7 @@ exports.register = async (req, res) => {
     // Insert new user
     await pool.execute(
       "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)",
-      [username, email, hashedPassword, "vehicleOwner"]	
+      [username, email, hashedPassword, "stationOwner"]
     );
 
     res.status(201).json({ message: "User registered successfully" });
@@ -88,3 +88,4 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+

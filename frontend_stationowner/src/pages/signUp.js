@@ -18,7 +18,7 @@ const Signup = () => {
       return;
     }
 
-    const userData = { username: name, email, password};
+    const userData = { username: name, email, password };
 
     try {
       const response = await registerUser(userData);
@@ -33,7 +33,7 @@ const Signup = () => {
       <div className="signup-container">
         <div className="signup-card">
           <div className="signup-header">
-            <h4>Sign Up - Vehicle Owner</h4>
+            <h4>Sign Up - Station Owner</h4>
           </div>
           <div className="signup-body">
             <form onSubmit={handleSubmit} className="signup-form">

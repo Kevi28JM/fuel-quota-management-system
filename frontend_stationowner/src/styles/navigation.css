@@ -1,0 +1,151 @@
+/* navigation.css */
+/* Using the same color variables as HomePage for consistency */
+:root {
+  --accent-color: #e74c3c;
+  --light-bg: #f8f9fa;
+  --dark-text: #343a40;
+  --light-text: #f8f9fa;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+.navbar-logo {
+  height: 50px; /* Adjust the height as needed */
+  margin-right: 10px; /* Add spacing between the logo and text */
+  vertical-align: middle;
+}
+
+.navbar {
+  padding: 0.025rem 0;
+  background-color: #72271f;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-dark.bg-primary {
+  background-color: #411611 !important; /* Set the background color to red */
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--light-text);
+  transition: var(--transition);
+  padding: 0.5rem 0;
+}
+
+.navbar-brand:hover {
+  color: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+.navbar-toggler {
+  border: none;
+  padding: 0.5rem;
+  transition: var(--transition);
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.navbar-toggler-icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.navbar-nav {
+  align-items: center;
+}
+
+.nav-item {
+  margin: 0 0.5rem;
+  position: relative;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-weight: 500;
+  padding: 0.5rem 1rem !important;
+  transition: var(--transition);
+  border-radius: 4px;
+}
+
+.nav-link:hover, 
+.nav-link:focus,
+.nav-link.active {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Special styling for login/signup buttons */
+.nav-item:nth-last-child(2) .nav-link,
+.nav-item:last-child .nav-link {
+  padding: 0.5rem 1.25rem !important;
+  border-radius: 50px;
+  margin-left: 0.5rem;
+}
+
+.nav-item:nth-last-child(2) .nav-link {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.nav-item:nth-last-child(2) .nav-link:hover {
+  border-color: white;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.nav-item:last-child .nav-link {
+  background-color: var(--accent-color);
+  color: white !important;
+  border: 1px solid var(--accent-color);
+}
+
+.nav-item:last-child .nav-link:hover {
+  background-color: transparent;
+  border-color: var(--accent-color);
+}
+
+/* Add an animated underline effect for regular nav items */
+.nav-item:not(:nth-last-child(-n+2)) .nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: white;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+.nav-item:not(:nth-last-child(-n+2)) .nav-link:hover::after {
+  width: 80%;
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .navbar-collapse {
+    background-color: var(--primary-color);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-item {
+    margin: 0.5rem 0;
+  }
+  
+  .nav-item:nth-last-child(2) .nav-link,
+  .nav-item:last-child .nav-link {
+    margin: 0.5rem 0;
+    text-align: center;
+  }
+  
+  .navbar-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+  }
+}

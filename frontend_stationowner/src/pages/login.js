@@ -31,7 +31,7 @@ const Login = () => {
       <div className="login-container">
         <div className="login-card">
           <div className="login-header">
-            <h4>Login - Vehicle Owner</h4>
+            <h4>Login - Station Owner</h4>
           </div>
           <div className="login-body">
             {error && <div className="login-alert">{error}</div>}
