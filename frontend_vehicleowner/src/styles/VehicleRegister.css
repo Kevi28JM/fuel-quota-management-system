@@ -1,0 +1,101 @@
+/* Page container with background image */
+.vehicle-register-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url('../assets/vehicleregister.jpg'); /* Use an absolute path for the public folder */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Form container with glass effect */
+.vehicle-register-page-container {
+  max-width: 800px;
+  width: 100%;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.541);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Title styling */
+.vehicle-register-title {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 600;
+  font-size: 28px;
+}
+
+/* Form layout */
+.vehicle-register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Form group styling */
+.vehicle-register-form-group {
+  margin-bottom: 18px;
+}
+
+/* Label styling */
+.vehicle-register-label {
+  color: #34495e;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 7px;
+  font-size: 15px;
+}
+
+/* Input field styling */
+.vehicle-register-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #dcdfe6;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.vehicle-register-input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  outline: none;
+}
+
+/* Button styling */
+.vehicle-register-btn {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 14px 25px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.vehicle-register-btn:hover {
+  background-color: #27ae60;
+  transform: translateY(-3px);
+  box-shadow: 0 7px 14px rgba(39, 174, 96, 0.3);
+}
+
+/* QR Code section styling */
+.vehicle-register-qr {
+  margin-top: 35px;
+  text-align: center;
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
