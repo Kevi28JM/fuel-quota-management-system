@@ -1,9 +1,8 @@
-const mongoose = require('mongoose');
+const express = require("express");
+const router = express.Router();
+const { fetchStations } = require("../controller/stationController"); // Import fetchStations
 
-const stationSchema = new mongoose.Schema({
-  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  stationName: String,
-  location: String
-});
+// Fetch all stations
+router.get('/stations', fetchStations);
 
-module.exports = mongoose.model('Station', stationSchema);
+module.exports = router;

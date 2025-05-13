@@ -19,3 +19,14 @@ exports.registerStation = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+// Fetch all stations
+exports.fetchStations = async (req, res) => {
+  try {
+    const [stations] = await pool.query('SELECT * FROM stations'); // Query to fetch all stations
+    res.status(200).json(stations);
+  } catch (err) {
+    console.error('Error fetching stations:', err);
+    res.status(500).json({ message: 'Failed to fetch stations.' });
+  }
+};

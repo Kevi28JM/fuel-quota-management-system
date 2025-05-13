@@ -14,3 +14,13 @@ export const registerVehicle = async (vehicleData) => {
     }
   }
 };
+
+export const fetchVehicles = async () => {
+  try {
+    const res = await axios.get('http://localhost:5000/api/vehicle/vehicles'); // Correct URL
+    return res.data;
+  } catch (err) {
+    console.error(err);
+    throw new Error('Failed to fetch vehicles.');
+  }
+};

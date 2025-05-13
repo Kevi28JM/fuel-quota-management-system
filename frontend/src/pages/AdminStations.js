@@ -1,25 +1,22 @@
-// AdminStations.js
-
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { fetchStations } from '../services/stationService'; // Adjust the path if necessary
 
 const AdminStations = () => {
   const [stations, setStations] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchStations();
-  }, []);
+    const getStations = async () => {
+      try {
+        const data = await fetchStations();
+        setStations(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
 
-  const fetchStations = async () => {
-    try {
-      const res = await axios.get('http://localhost:5000/admin/stations');
-      setStations(res.data);
-    } catch (err) {
-      console.error(err);
-      setError('Failed to fetch stations.');
-    }
-  };
+    getStations();
+  }, []);
 
   return (
     <div style={styles.container}>

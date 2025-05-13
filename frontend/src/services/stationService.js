@@ -19,3 +19,15 @@ export const registerStation = async (stationData) => {
 };
 
 
+
+export const fetchStations = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/stations`); // Use the correct API URL
+    return res.data;
+  } catch (err) {
+    console.error(err);
+    throw new Error("Failed to fetch stations.");
+  }
+};
+
+

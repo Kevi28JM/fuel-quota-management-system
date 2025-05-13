@@ -78,3 +78,14 @@ exports.registerVehicle = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+// Fetch all vehicles
+exports.fetchVehicles = async (req, res) => {
+  try {
+    const [vehicles] = await pool.query('SELECT * FROM vehicles'); // Query to fetch all vehicles
+    res.status(200).json(vehicles);
+  } catch (err) {
+    console.error('Error fetching vehicles:', err);
+    res.status(500).json({ message: 'Failed to fetch vehicles.' });
+  }
+};

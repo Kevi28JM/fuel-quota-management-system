@@ -1,25 +1,22 @@
-// AdminVehicles.jsx
-
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { fetchVehicles } from '../services/vehicleService'; // Adjust the path if necessary
 
 const AdminVehicles = () => {
   const [vehicles, setVehicles] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchVehicles();
-  }, []);
+    const getVehicles = async () => {
+      try {
+        const data = await fetchVehicles();
+        setVehicles(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
 
-  const fetchVehicles = async () => {
-    try {
-      const res = await axios.get('http://localhost:5000/admin/vehicles');
-      setVehicles(res.data);
-    } catch (err) {
-      console.error(err);
-      setError('Failed to fetch vehicles.');
-    }
-  };
+    getVehicles();
+  }, []);
 
   return (
     <div style={styles.container}>
