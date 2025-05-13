@@ -4,12 +4,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 // Page imports
 import HomePage from './pages/HomePage';
-import VehiclePortal from './pages/VehicleRegister';
 import StationPortal from './pages/StationPortal';
 import AdminPortal from './pages/AdminPortal';
 import Login from './pages/login';
-import Signup from './pages/signUp';
-import StationRegister from './pages/StationRegister';
 import StationLogs from './pages/StationLogs';
 import AdminStations from './pages/AdminStations';
 import AdminReports from './pages/AdminReports';
@@ -29,10 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/vehicle" element={<VehiclePortal />} />
             <Route path="/station" element={<StationPortal />} />
-            <Route path="/station/register" element={<StationRegister />} />
             <Route path="/station/logs" element={<StationLogs />} />
             <Route path="/station/portal" element={<StationPortal />} />
             <Route path="/admin" element={<AdminPortal />} />
