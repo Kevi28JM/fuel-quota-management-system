@@ -1,0 +1,39 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/btnScanQR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scan QR Code" />
+
+    <TextView
+        android:id="@+id/textVehicleId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Vehicle ID: "
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textFuelQuota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Available Quota: "
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editPumpedLitres"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter pumped litres" />
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit Fuel Data" />
+</LinearLayout>
