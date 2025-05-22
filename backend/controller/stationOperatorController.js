@@ -4,7 +4,7 @@ const { createStationOperator } = require('../models/stationOperatorModel');
 const registerStationOperator = (req, res) => {
     const { name, nic, username, email, password, station } = req.body;
 
-    if (!name  !nic  !username  !email  !password || !station) {
+    if (!name || !nic || !username || !email ||  !password || !station) {
         return res.status(400).json({ message: 'Missing required fields' });
     }
 
