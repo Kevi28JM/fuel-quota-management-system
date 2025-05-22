@@ -6,6 +6,7 @@
     android:background="#0A192F">
 
     <LinearLayout
+        android:id="@+id/login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -44,8 +45,7 @@
             android:layout_marginBottom="16dp"
             app:boxStrokeColor="#E94560"
             app:hintTextColor="#FFFFFF"
-            app:boxStrokeWidth="1dp"
-            app:boxCornerRadius="8dp">
+            app:boxStrokeWidth="1dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etEmailLogin"
@@ -66,7 +66,6 @@
             app:boxStrokeColor="#E94560"
             app:hintTextColor="#FFFFFF"
             app:boxStrokeWidth="1dp"
-            app:boxCornerRadius="8dp"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="#E94560">
 
@@ -114,6 +113,8 @@
             android:textColor="#E94560"
             android:layout_gravity="center"
             android:layout_marginTop="24dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
