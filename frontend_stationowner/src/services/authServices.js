@@ -1,7 +1,7 @@
 // src/services/authServices.js
 import axios from "axios";
 
-const API_URL = "http://localhost:5002/api/auth"; 
+const API_URL = "http://localhost:5000/api/auth"; 
 
 // Register a new user
 export const registerUser = async (userData) => {

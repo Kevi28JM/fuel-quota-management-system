@@ -64,7 +64,7 @@ exports.login = async (req, res) => {
         redirectPath = "/admin";
         break;
       case "vehicleOwner":
-        redirectPath = "/vehicle";
+        redirectPath = "/vehicle/home";
         break;
       case "stationOwner":
         redirectPath = "/station";

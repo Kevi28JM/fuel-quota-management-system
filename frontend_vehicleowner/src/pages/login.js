@@ -19,6 +19,8 @@ const Login = () => {
 
       // Call context login and let it handle storage + navigation
       login(user, token, redirectPath);
+      navigate(redirectPath);
+
     } catch (err) {
       setError(err.message || 'Login failed');
     }

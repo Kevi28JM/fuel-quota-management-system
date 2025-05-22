@@ -14,7 +14,7 @@ function ShowQRPage() {
       if (!user?.id) return;
 
       try {
-        const res = await axios.get(`http://localhost:5001/api/vehicle/by-owner/${user.id}`);
+        const res = await axios.get(`http://localhost:5000/api/vehicle/by-owner/${user.id}`);
         if (Array.isArray(res.data)) {
           setVehicles(res.data);
         } else {
@@ -41,7 +41,7 @@ function ShowQRPage() {
     if (!vehicleId) return;
 
     try {
-      const res = await axios.get(`http://localhost:5001/api/vehicle/qr/${vehicleId}`);
+      const res = await axios.get(`http://localhost:5000/api/vehicle/qr/${vehicleId}`);
       if (res.data?.qrCodeData) {
         setQrData(res.data.qrCodeData);
       } else {

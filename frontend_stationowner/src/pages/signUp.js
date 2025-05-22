@@ -18,7 +18,8 @@ const Signup = () => {
       return;
     }
 
-    const userData = { username: name, email, password };
+    const role = 'stationOwner'; // Assuming this is the role for the signup
+    const userData = { username: name, email, password,role };
 
     try {
       const response = await registerUser(userData);

@@ -17,8 +17,8 @@ const Signup = () => {
       setMessage('Passwords do not match');
       return;
     }
-
-    const userData = { username: name, email, password};
+    const role = 'vehicleOwner'; 
+    const userData = { username: name, email, password , role};
 
     try {
       const response = await registerUser(userData);

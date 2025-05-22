@@ -17,14 +17,7 @@ exports.registerVehicle = async (req, res) => {
   try {
     // Validate input
     if (
-      !vehicleNumber ||
-      !chassisNumber ||
-      !engineNumber ||
-      !ownerName ||
-      !registeredDate ||
-      !vehicleType ||
-      !color
-    ) {
+      !vehicleNumber || !chassisNumber || !engineNumber || !ownerName || !registeredDate || !vehicleType ||!color) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
@@ -58,14 +51,7 @@ exports.registerVehicle = async (req, res) => {
       `INSERT INTO vehicles (vehicleNumber, chassisNumber, engineNumber, ownerName, registeredDate, vehicleType, color, qrCode)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        vehicleNumber,
-        chassisNumber,
-        engineNumber,
-        ownerName,
-        registeredDate,
-        vehicleType,
-        color,
-        qrCode,
+        vehicleNumber, chassisNumber,engineNumber,ownerName,registeredDate,vehicleType,color,qrCode,
       ]
     );
 
@@ -79,7 +65,7 @@ exports.registerVehicle = async (req, res) => {
   }
 };
 
-// Fetch all vehicles
+// Fetch all vehicles 
 exports.fetchVehicles = async (req, res) => {
   try {
     const [vehicles] = await pool.query('SELECT * FROM vehicles'); // Query to fetch all vehicles
@@ -87,5 +73,47 @@ exports.fetchVehicles = async (req, res) => {
   } catch (err) {
     console.error('Error fetching vehicles:', err);
     res.status(500).json({ message: 'Failed to fetch vehicles.' });
+  }
+};
+
+// Get QR Code for a registered vehicle
+exports.getQRCode = async (req, res) => {
+  const {  vehicleID  } = req.params;
+
+  try {
+    const [vehicleRows] = await pool.execute(
+      'SELECT qrCode FROM vehicles WHERE id = ?',
+      [vehicleID]
+    );
+
+    if (vehicleRows.length === 0) {
+      return res.status(404).json({ message: 'Vehicle not found.' });
+    }
+
+    res.status(200).json({ qrCodeData: vehicleRows[0].qrCode });
+  } catch (error) {
+    console.error('Error fetching QR code:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+//Fetch all vehicles by owner
+exports.getVehiclesByOwner = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const [vehicleRows] = await pool.execute(
+      'SELECT id ,vehicleNumber FROM vehicles WHERE userId = ?',
+      [userId]
+    );
+
+    if (vehicleRows.length === 0) {
+      return res.status(404).json({ message: 'No vehicles found for this owner.' });
+    }
+
+    res.status(200).json(vehicleRows);
+  } catch (error) {
+    console.error('Error fetching vehicles:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
