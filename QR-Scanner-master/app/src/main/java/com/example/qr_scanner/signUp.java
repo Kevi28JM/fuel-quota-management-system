@@ -1,5 +1,6 @@
 package com.example.qr_scanner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -50,20 +51,25 @@ public class signUp extends AppCompatActivity {
 
             PendingRequest request = new PendingRequest(name, nic, username, email, password, station);
             ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-            Call<Void> call = apiService.sendRegistration(request);
+            Call<ApiResponse> call = apiService.sendRegistration(request);
 
-            call.enqueue(new Callback<Void>() {
+            call.enqueue(new Callback<ApiResponse>() {
                 @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(signUp.this, "Registration successful!", Toast.LENGTH_SHORT).show();
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        Toast.makeText(signUp.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                        // Redirect to login page
+                        Intent intent = new Intent(signUp.this, login.class);
+                        startActivity(intent);
+                        finish();
                     } else {
-                        Toast.makeText(signUp.this, "Server error!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(signUp.this, "Registration failed: " + response.code(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<Void> call, Throwable t) {
+                public void onFailure(Call<ApiResponse> call, Throwable t) {
                     Toast.makeText(signUp.this, "Failed: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });

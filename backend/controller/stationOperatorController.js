@@ -13,8 +13,10 @@ const registerStationOperator = (req, res) => {
             console.error('Error saving stationOperator:', err);
             return res.status(500).json({ message: 'Database error' });
         }
-
+        else{
+        console.log("Saving stationOperator done, sending response...");
         res.status(200).json({ message: 'Station Operator registered successfully!' });
+        }
     });
 };
 

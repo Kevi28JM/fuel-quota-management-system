@@ -6,5 +6,5 @@ import retrofit2.http.POST;
 
 public interface ApiService {
     @POST("/stationOperator") // This is the endpoint from your Node.js API
-    Call<Void> sendRegistration(@Body PendingRequest pendingRequest);
+    Call<ApiResponse> sendRegistration(@Body PendingRequest pendingRequest);
 }
