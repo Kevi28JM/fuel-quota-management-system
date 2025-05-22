@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../services/authServices'; // Adjust path if needed
+import { loginUser } from '../services/adminService'; 
 import '../styles/Login.css'; // Import the CSS file
 
 const Login = () => {
