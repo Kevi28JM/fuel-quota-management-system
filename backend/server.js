@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const authRoutes = require("./routes/auth");
+const stationOwnerRoutes = require("./routes/station_ownerroutes");
 const stationRoutes = require("./routes/station");
 const vehicleRoutes = require('./routes/vehicle');
 
@@ -11,8 +11,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", authRoutes);
-app.use("/api/stations", stationRoutes); 
+app.use("/api/station_owner", stationOwnerRoutes);
+app.use("/api/stations", stationRoutes);
 app.use('/api/vehicle', vehicleRoutes);
 
 const PORT = 5000;
