@@ -1,0 +1,105 @@
+/* Define Azure-themed CSS variables */
+:root {
+  --azure-blue: #007fff;
+  --azure-dark-blue: #005bb5;
+  --light-blue: #e0f7fa;
+  --lighter-blue: #b2ebf2;
+  --card-bg: #ffffff;
+  --text-color: #333;
+  --border-radius: 10px;
+  --transition: all 0.3s ease;
+}
+
+/* Container styles with a subtle gradient background */
+.approve-station-owners-container {
+  background: linear-gradient(135deg, var(--light-blue), var(--lighter-blue));
+  padding: 2rem;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Title styling with shadow and modern typography */
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--azure-dark-blue);
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Error message styling */
+.error {
+  text-align: center;
+  color: red;
+  margin-bottom: 1rem;
+}
+
+/* Grid layout for the owner cards */
+.owners-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Card styling for each owner */
+.owner-card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+}
+
+.owner-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Card header and text */
+.owner-card h5 {
+  color: var(--azure-blue);
+  margin-bottom: 0.5rem;
+}
+
+.owner-card p {
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+/* Button styling with gradient background */
+.owner-card .btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--border-radius);
+  background: linear-gradient(135deg, var(--azure-blue), var(--azure-dark-blue));
+  color: #fff;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 1rem;
+}
+
+.owner-card .btn:hover {
+  background: linear-gradient(135deg, var(--azure-dark-blue), var(--azure-blue));
+}
+
+/* Back link styling */
+.back-link {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.back-link .btn {
+  background: var(--azure-blue);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 1rem;
+}
+
+.back-link .btn:hover {
+  background: var(--azure-dark-blue);
+}

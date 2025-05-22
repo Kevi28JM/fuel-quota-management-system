@@ -12,6 +12,7 @@ import AdminStations from './pages/AdminStations';
 import AdminReports from './pages/AdminReports';
 import AdminVehicles from './pages/AdminVehicles';
 import AdminSignup from './pages/AdminSignup';
+import ApproveStationOwners from './pages/ApproveStationOwners';
 
 // Component imports
 import Navigation from './components/navigation';
@@ -34,6 +35,7 @@ function App() {
             <Route path="/admin/stations" element={<AdminStations />} />
             <Route path="/admin/reports" element={<AdminReports />} />
             <Route path="/admin/signup" element={<AdminSignup />} />
+            <Route path="/approve/station-owners" element={<ApproveStationOwners />} />
             {/* Redirect any unknown routes to the home page */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
