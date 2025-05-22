@@ -1,30 +1,35 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { registerUser } from '../services/authServices'; // Ensure the path is correct
-import '../styles/Signup.css'; // Import the CSS file
+// Updated import to use the correct services file
+import { registerUser } from '../services/vehicleOwnerServices';
+import '../styles/Signup.css';
 
 const Signup = () => {
-  const [name, setName] = useState('');
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [nic, setNIC] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (password !== confirmPassword) {
       setMessage('Passwords do not match');
       return;
     }
-    const role = 'vehicleOwner'; 
-    const userData = { username: name, email, password , role};
-
+    const role = 'vehicleOwner';
+    const userData = { fullName, email, phone, nic, password, role };
     try {
+      setLoading(true);
       const response = await registerUser(userData);
       setMessage(response.message || 'Registered successfully!');
     } catch (error) {
       setMessage(error.message || 'Registration failed.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,15 +43,15 @@ const Signup = () => {
           <div className="signup-body">
             <form onSubmit={handleSubmit} className="signup-form">
               <div className="signup-form-group">
-                <label htmlFor="name" className="signup-form-label">
-                  User Name
+                <label htmlFor="fullName" className="signup-form-label">
+                  Full Name
                 </label>
                 <input
                   type="text"
                   className="signup-form-control"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  id="fullName"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
                   required
                 />
               </div>
@@ -60,6 +65,31 @@ const Signup = () => {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="signup-form-group">
+                <label htmlFor="phone" className="signup-form-label">
+                  Phone Number
+                </label>
+                <input
+                  type="text"
+                  className="signup-form-control"
+                  id="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </div>
+              <div className="signup-form-group">
+                <label htmlFor="nic" className="signup-form-label">
+                  NIC Number
+                </label>
+                <input
+                  type="text"
+                  className="signup-form-control"
+                  id="nic"
+                  value={nic}
+                  onChange={(e) => setNIC(e.target.value)}
                   required
                 />
               </div>
@@ -89,15 +119,15 @@ const Signup = () => {
                   required
                 />
               </div>
-              <button type="submit" className="signup-btn">
-                Sign Up
+              <button type="submit" className="signup-btn" disabled={loading}>
+                {loading ? 'Signing Up...' : 'Sign Up'}
               </button>
             </form>
             <div className="signup-footer">
               <p>
                 Already have an account? <Link to="/login">Login here</Link>
               </p>
-              <div className="signup-message">{message}</div>
+              {message && <div className="signup-message">{message}</div>}
             </div>
           </div>
         </div>

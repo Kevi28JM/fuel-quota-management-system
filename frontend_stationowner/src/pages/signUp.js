@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { registerUser } from '../services/authServices'; // Ensure the path is correct
+import { registerUser } from '../services/stationOwnerServices'; // Ensure the path is correct
 import '../styles/Signup.css'; // Import the CSS file
 
 const Signup = () => {
   const [name, setName] = useState('');
+  const [nic, setNIC] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -18,8 +20,14 @@ const Signup = () => {
       return;
     }
 
-    const role = 'stationOwner'; // Assuming this is the role for the signup
-    const userData = { username: name, email, password,role };
+    // Build registration data according to the station_owner table schema
+    const userData = {
+      ownerName: name,
+      email,
+      phone,
+      nic,
+      password
+    };
 
     try {
       const response = await registerUser(userData);
@@ -40,7 +48,7 @@ const Signup = () => {
             <form onSubmit={handleSubmit} className="signup-form">
               <div className="signup-form-group">
                 <label htmlFor="name" className="signup-form-label">
-                  User Name
+                  Owner Name
                 </label>
                 <input
                   type="text"
@@ -48,6 +56,19 @@ const Signup = () => {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="signup-form-group">
+                <label htmlFor="nic" className="signup-form-label">
+                  NIC
+                </label>
+                <input
+                  type="text"
+                  className="signup-form-control"
+                  id="nic"
+                  value={nic}
+                  onChange={(e) => setNIC(e.target.value)}
                   required
                 />
               </div>
@@ -62,6 +83,18 @@ const Signup = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                />
+              </div>
+              <div className="signup-form-group">
+                <label htmlFor="phone" className="signup-form-label">
+                  Phone Number
+                </label>
+                <input
+                  type="text"
+                  className="signup-form-control"
+                  id="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
               <div className="signup-form-group">

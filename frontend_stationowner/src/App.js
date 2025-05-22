@@ -9,6 +9,7 @@ import Login from './pages/login';
 import Signup from './pages/signUp';
 import StationRegister from './pages/StationRegister';
 import StationLogs from './pages/StationLogs';
+import ApproveWorkers from './pages/ApproveWorkers';
 
 
 // Component imports
@@ -29,6 +30,7 @@ function App() {
             <Route path="/station/register" element={<StationRegister />} />
             <Route path="/station/logs" element={<StationLogs />} />
             <Route path="/station/portal" element={<StationPortal />} />
+            <Route path="/approve/workers" element={<ApproveWorkers />} />
             {/* Redirect any unknown routes to the home page */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

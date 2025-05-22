@@ -1,33 +1,23 @@
 // src/pages/HomePage.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/HomevehiclePage.css'; 
 
 function HomePage() {
   const navigate = useNavigate();
 
   return (
-    <div style={styles.container}>
-      <h2>Welcome, Vehicle Owner</h2>
+    <div className="container-vehicle-owner"> 
+      <h2 className='heading-vehicle-owner'>Welcome, Vehicle Owner</h2>
       <p>Please choose an option:</p>
-      <button style={styles.button} onClick={() => navigate('/vehicle/register')}>
+      <button className="button-vehicle-owner" onClick={() => navigate('/vehicle/register')}>
         Register a Vehicle
       </button>
-      <button style={styles.button} onClick={() => navigate('/vehicle/showqr')}>
+      <button className="button-vehicle-owner" onClick={() => navigate('/vehicle/showqr')}>
         View QR Code
       </button>
     </div>
   );
 }
 
-const styles = {
-  container: { textAlign: 'center', marginTop: '50px' },
-  button: {
-    margin: '10px',
-    padding: '10px 20px',
-    fontSize: '16px',
-    cursor: 'pointer'
-  }
-};
-
 export default HomePage;
-

@@ -1,0 +1,157 @@
+/* src/styles/HomevehiclePage.css */
+
+/* Container for Vehicle Owner Home Page with background image */
+.container-vehicle-owner {
+  /* Background image with overlay */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../assets/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: white;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Heading styles */
+.heading-vehicle-owner {
+  font-size: 2.5rem;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.container-vehicle-owner p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* Button container */
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Button styles */
+.button-vehicle-owner {
+  background-color: #3498db;
+  color: #fff;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 220px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.button-vehicle-owner::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.button-vehicle-owner:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  background-color: #2980b9;
+}
+
+.button-vehicle-owner:active {
+  transform: translateY(-1px);
+}
+
+.button-vehicle-owner:focus {
+  outline: none;
+}
+
+.button-vehicle-owner:active::after {
+  animation: ripple 1s ease-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 1;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container-vehicle-owner {
+    padding: 1rem;
+  }
+  
+  .heading-vehicle-owner {
+    font-size: 2rem;
+  }
+  
+  .container-vehicle-owner p {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .button-vehicle-owner {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading-vehicle-owner {
+    font-size: 1.8rem;
+  }
+  
+  .button-container {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .button-vehicle-owner {
+    width: 100%;
+  }
+}

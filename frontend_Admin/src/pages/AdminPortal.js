@@ -39,6 +39,14 @@ function AdminPortal() {
         </div>
       </div>
 
+      <div className="admin-portal-col col-md-4 mb-4">
+          <div className="admin-portal-card card shadow-sm p-4">
+            <h5 className="admin-portal-card-title">Approve Station Owners</h5>
+            <Link className="admin-portal-btn btn btn-warning mt-3" to="/approve/station-owners">
+              Approve Station Owners
+            </Link>
+          </div>
+        </div>
       <div className="admin-portal-footer text-center mt-4">
         <Link className="admin-portal-back-btn btn btn-danger" to="/">
           Back to Home

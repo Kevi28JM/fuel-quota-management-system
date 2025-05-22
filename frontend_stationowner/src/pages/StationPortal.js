@@ -28,6 +28,17 @@ function StationPortal() {
         </div>
       </div>
 
+      <div className="row text-center">
+        <div className="col-md-4 mb-4">
+          <div className="card shadow-sm p-4">
+            <h5>Approve Workers</h5>
+            <Link to="/approve/workers" className="btn btn-info mt-3">
+              Approve
+            </Link>
+          </div>
+        </div>
+      </div>
+
       <div className="text-center mt-4">
         <Link to="/" className="btn btn-secondary">
           Back to Home

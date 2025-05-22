@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2025 at 08:16 AM
+-- Generation Time: May 22, 2025 at 04:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `fuel_quota_management_system`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admins`
+--
+
+CREATE TABLE `admins` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`id`, `username`, `email`, `password`) VALUES
+(1, 'hasi123', 'hasi1234@gmail.com', '$2b$10$rPZ.B0fzZQFTMzH.y9.iHeSt5WAK5HXE4ema6vtID9icm/bnTsc5.');
 
 -- --------------------------------------------------------
 
@@ -46,31 +66,28 @@ INSERT INTO `stations` (`id`, `name`, `location`, `owner_id`, `created_at`, `con
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Table structure for table `station_owner`
 --
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('vehicleOwner','stationOwner','admin') NOT NULL
+CREATE TABLE `station_owner` (
+  `OwnerID` int(11) NOT NULL,
+  `OwnerName` varchar(20) NOT NULL,
+  `Email` varchar(100) NOT NULL,
+  `Phone` varchar(10) DEFAULT NULL,
+  `NIC` varchar(20) NOT NULL,
+  `Password` varbinary(255) NOT NULL,
+  `RegistrationDate` datetime DEFAULT NULL,
+  `Status` varchar(20) DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `station_owner`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`) VALUES
-(1, 'M.G. Hasindu Thirasara', 'hasinduthirasaramg@gmail.com', '$2b$10$BP/POtyj.i2bfITDntlYzuJ8L5KDUv0erS4nHC1LeTv9pCWC5xlBS', 'vehicleOwner'),
-(2, 'Thirasara', 'hasinduthirasara@gmail.com', '$2b$10$/ZoWZ2fc3ZS6knL3jca1xuTXBlqlAPQTMK2Fuz2Nh6BbkGvt4mxd2', 'vehicleOwner'),
-(3, 'Thirasarav', 'hasinduthiara@gmail.com', '$2b$10$fsjDoxjs0epnNgPep5eFbu./uJdy5xZK8Ps8ZNzG2t.zVr7Yjgzce', 'stationOwner'),
-(4, 'hasi', 'hasi@gmail.com', '$2b$10$Md48PqQejKwaZtCZpAdvMuSdclwsXO8wrjpaIzgem/sbZtWYoQXRi', 'admin'),
-(5, 'jagath', 'jaga@gmail.com', '$2b$10$tyz5pbGK9qc.IOt3jxTsV.dQQPvZO0XsEVhmyZG3XLtb6afDPFG5u', 'vehicleOwner'),
-(6, 'hasindu', 'hasi1234@gmail.com', '$2b$10$ZlH1odFse4o5T8/9bsJ8FunfNPsCEe.3gUrc/Uen4z4HnQMFHIBQ6', 'admin'),
-(7, 'hasi1234', 'hasi12@gmail.com', '$2b$10$GCpz/CvMHuGeWpZn/8HIoeuQv2sA.llBlzTiZZTAv1LV5cnOvSrsK', 'admin'),
-(8, 'kawda', 'kaw@gmail.com', '$2b$10$pOrzduyfDQ6J0CF6WMP3kucCUuSB6REbu3qrynC87/Si2IHGhhiA6', 'stationOwner'),
-(9, 'hasi1', 'hasi1@gmail.com', '$2b$10$kkE9NdG0hI2axeRVns0E9uW8q4WkSYT4OVrK/JF5VtF1mKJYrvZ1m', 'stationOwner');
+INSERT INTO `station_owner` (`OwnerID`, `OwnerName`, `Email`, `Phone`, `NIC`, `Password`, `RegistrationDate`, `Status`) VALUES
+(1, 'M.G. Hasindu Thirasa', 'hasinduthirasaramg@gmail.com', '0717517940', '123456789123', 0x24326224313024444a31695244744a6d2f6f556331675257467a52332e5459562e325544784b49766530306e656f3962742f6e776e63416e3035544f, '2025-05-22 19:15:54', 'Pending'),
+(2, 'tharu hiru', 'tharu@gmail.com', '0717517940', '4444', 0x2432622431302472625675455870476a41783245615a42685a506161754b2e71334d346e5a484c64505533696a63497a6d454c2f786d66646f374675, '2025-05-22 19:30:37', 'Pending'),
+(3, 'hasi', 'hasi@gmail.com', '444', '444', 0x24326224313024642f4d66546659355a2e556c72443337647a77314d75347644582e476e4a4a4451433151594a4e3534375a7579796f5644574e3453, '2025-05-22 19:42:03', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -98,16 +115,46 @@ CREATE TABLE `vehicles` (
 INSERT INTO `vehicles` (`id`, `vehicleNumber`, `chassisNumber`, `engineNumber`, `ownerName`, `registeredDate`, `vehicleType`, `color`, `qrCode`, `createdAt`) VALUES
 (1, '11', '11', '11', '11', '2025-05-13', '11', '11', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAACECAYAAABRRIOnAAAAAklEQVR4AewaftIAAAOGSURBVO3BQY5jiRUDwcwH3f/K9Cy84OoDglQ13TYjzD+Y+a9jphwz5Zgpx0w5ZsoxU46ZcsyUY6YcM+WYKcdMOWbKMVOOmfLiQyq/KQlN5Scl4RMqvykJnzhmyjFTjpny4suS8E0q70hCU2lJaCotCU2lJaGptCQ8ScI3qXzTMVOOmXLMlBc/TOUdSfiEyidUWhKaSkvCJ1TekYSfdMyUY6YcM+XFXy4JTeWJSktCU2kqLQlNpSXhb3bMlGOmHDPlxV9O5RMqT5Lw/+SYKcdMOWbKix+WhJ+UhE+o/JuS8Cc5ZsoxU46Z8uLLVH6TSktCU2lJeJKEptKS8AmVP9kxU46ZcswU8w/+h6g8ScITlU8k4W92zJRjphwz5cWHVFoSnqj8piQ0lSdJeIdKU2lJeKLSktBU3pGETxwz5Zgpx0x58aEkNJWWhJaEP0kSnqg8SUJT+aYk/KZjphwz5ZgpL36YSktCU3lHEp6otCQ8UWlJeIfKE5WWhCcqLQlPVFoSPnHMlGOmHDPlxZcl4ZuS8AmVloSm8iQJTaUl4YnKkyQ0labSkvCTjplyzJRjprz4kMo7kvAkCU3lHUloKk+S8ETlHSpPVFoSniThNx0z5Zgpx0wx/+ADKt+UhE+oPElCU3mShKbyjiQ0lSdJaCotCT/pmCnHTDlmyotfloSm8kSlJeGbktBU3pGEJyrfpPIkCZ84ZsoxU46Z8uLLktBUmsoTlZaEpvIkCU3liUpLwidUniThicqTJPykY6YcM+WYKS9+WBKayjtUvknlicqTJDSVd6h8k0pLwieOmXLMlGOmvPhQEt6RhG9SeZKEptKS8ETlHUl4h0pLQlP5TcdMOWbKMVNefEjlNyXhicqTJDSVd6i8Q6Ul4R1J+E3HTDlmyjFTXnxZEr5J5R1JaCpNpSWhqbQkNJV3JOEdKi0JT5LwTcdMOWbKMVNe/DCVdyThEyotCU3lJ6n8JJUnSfjEMVOOmXLMlBf/Z5LQVJ6otCQ0lZaEpvIkCU3l33TMlGOmHDPlxV8uCe9QaUloKi0JTaUloam0JDxR+ZMcM+WYKcdMefHDkvAnU3lHEp4k4YlKS0JTaSq/6Zgpx0w5ZsqLL1P5TSotCU3lm1Q+kYSm8iQJT1S+6Zgpx0w5Zor5BzP/dcyUY6YcM+WYKcdMOWbKMVOOmXLMlGOmHDPlmCnHTDlmyjFT/gPKlW1QrXTqaAAAAABJRU5ErkJggg==', '2025-05-11 10:12:14');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vehicle_owners`
+--
+
+CREATE TABLE `vehicle_owners` (
+  `id` int(11) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `nic_number` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `vehicle_owners`
+--
+
+INSERT INTO `vehicle_owners` (`id`, `full_name`, `email`, `phone`, `password`, `nic_number`) VALUES
+(1, 'M.G. Hasindu Thirasara', 'hasinduthirasaramg@gmail.com', '0717517940', '$2b$10$KiPXz/LbdJBk6jGUsNVlyup7pZ7kq9H7ndbsFb.D8l7.9A9NhtHFa', '44444');
+
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `users`
+-- Indexes for table `admins`
 --
-ALTER TABLE `users`
+ALTER TABLE `admins`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `station_owner`
+--
+ALTER TABLE `station_owner`
+  ADD PRIMARY KEY (`OwnerID`),
+  ADD UNIQUE KEY `Email` (`Email`),
+  ADD UNIQUE KEY `NIC` (`NIC`);
 
 --
 -- Indexes for table `vehicles`
@@ -117,19 +164,38 @@ ALTER TABLE `vehicles`
   ADD UNIQUE KEY `vehicleNumber` (`vehicleNumber`);
 
 --
+-- Indexes for table `vehicle_owners`
+--
+ALTER TABLE `vehicle_owners`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT for table `admins`
 --
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `admins`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `station_owner`
+--
+ALTER TABLE `station_owner`
+  MODIFY `OwnerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `vehicles`
 --
 ALTER TABLE `vehicles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `vehicle_owners`
+--
+ALTER TABLE `vehicle_owners`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 

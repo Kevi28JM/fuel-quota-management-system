@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../services/authServices'; 
-import '../styles/Login.css'; // Import the CSS file
+import { loginUser } from '../services/vehicleOwnerServices';
+import '../styles/Login.css';
 import { useAuth } from '../contexts/AuthContext';
 
 const Login = () => {
@@ -9,18 +9,19 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const [error, setError] = useState('');
-  const { login } = useAuth();// Import login from AuthContext
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-     try {
-      const { token, user, redirectPath } = await loginUser(email, password);
-
-      // Call context login and let it handle storage + navigation
+    try {
+      const { token, user } = await loginUser(email, password);
+      // Set fixed redirect path for vehicle owners
+      const redirectPath = '/vehicle/home';
+      // Call the Context login to store token and user info
       login(user, token, redirectPath);
+      // Navigate to the fixed path
       navigate(redirectPath);
-
     } catch (err) {
       setError(err.message || 'Login failed');
     }
@@ -37,7 +38,9 @@ const Login = () => {
             {error && <div className="login-alert">{error}</div>}
             <form onSubmit={handleSubmit} className="login-form">
               <div className="login-form-group">
-                <label htmlFor="email" className="login-form-label">Email address</label>
+                <label htmlFor="email" className="login-form-label">
+                  Email address
+                </label>
                 <input
                   type="email"
                   className="login-form-control"
@@ -48,7 +51,9 @@ const Login = () => {
                 />
               </div>
               <div className="login-form-group">
-                <label htmlFor="password" className="login-form-label">Password</label>
+                <label htmlFor="password" className="login-form-label">
+                  Password
+                </label>
                 <input
                   type="password"
                   className="login-form-control"
@@ -58,7 +63,9 @@ const Login = () => {
                   required
                 />
               </div>
-              <button type="submit" className="login-btn">Login</button>
+              <button type="submit" className="login-btn">
+                Login
+              </button>
             </form>
             <div className="login-footer">
               <p>
