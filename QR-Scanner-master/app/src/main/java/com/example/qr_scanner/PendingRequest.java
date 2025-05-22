@@ -1,6 +1,6 @@
 package com.example.qr_scanner;
 
-public class StationOperator {
+public class PendingRequest {
     private String name;
     private String nic;
     private String username;
@@ -8,7 +8,7 @@ public class StationOperator {
     private String password;
     private String station;
 
-    public StationOperator(String name, String nic, String username, String email, String password) {
+    public PendingRequest(String name, String nic, String username, String email, String password, String station) {
         this.name = name;
         this.nic = nic;
         this.username = username;
