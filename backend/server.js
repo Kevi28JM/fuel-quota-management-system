@@ -7,6 +7,7 @@ const vehicleRoutes = require('./routes/vehicle');
 const vehicleOwnerRoutes = require('./routes/vehicleOwnerroutes');
 const adminRoutes = require("./routes/adminroutes");
 const stationOwnersRoutes = require('./routes/stationOwnersRoutes');
+const stationOperatorRoute = require('./routes/stationOperatorRoute');
 
 dotenv.config();
 const app = express();
@@ -14,6 +15,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use('/stationOperator', stationOperatorRoute);
 app.use("/api/station_owner", stationOwnerRoutes);
 app.use("/api/vehicle_owner", vehicleOwnerRoutes);
 app.use("/api/stations", stationRoutes);
