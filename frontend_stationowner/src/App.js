@@ -7,7 +7,6 @@ import HomePage from './pages/HomePage';
 import StationPortal from './pages/StationPortal';
 import Login from './pages/login';
 import Signup from './pages/signUp';
-import StationRegister from './pages/StationRegister';
 import StationLogs from './pages/StationLogs';
 import ApproveWorkers from './pages/ApproveWorkers';
 
@@ -27,7 +26,6 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/station" element={<StationPortal />} />
-            <Route path="/station/register" element={<StationRegister />} />
             <Route path="/station/logs" element={<StationLogs />} />
             <Route path="/station/portal" element={<StationPortal />} />
             <Route path="/approve/workers" element={<ApproveWorkers />} />

@@ -2,18 +2,18 @@ const db = require('../config/db');
 const bcrypt = require('bcrypt');
 
 const createStationOwner = async (ownerData) => {
-    const { ownerName, email, phone, nic, password } = ownerData;
+    const { ownerName, email, phone, nic, password, stationName, location, capacity } = ownerData;
     try {
         // Hash the password using bcrypt
         const hashedPassword = await bcrypt.hash(password, 10);
         const registrationDate = new Date();
         const status = "Pending";
         const query = `
-            INSERT INTO station_owner 
-            (OwnerName, Email, Phone, NIC, Password, RegistrationDate, Status) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO Pending_station_and_owner 
+            (OwnerName, Email, Phone, NIC, Password, RegistrationDate, Status, StationName, Location, Capacity) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        const values = [ownerName, email, phone, nic, hashedPassword, registrationDate, status];
+        const values = [ownerName, email, phone, nic, hashedPassword, registrationDate, status, stationName, location, capacity];
         const [result] = await db.execute(query, values);
         return result;
     } catch (error) {
