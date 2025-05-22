@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const stationOwnerRoutes = require("./routes/station_ownerroutes");
 const stationRoutes = require("./routes/station");
 const vehicleRoutes = require('./routes/vehicle');
+const vehicleOwnerRoutes = require('./routes/vehicleOwnerroutes');
 
 dotenv.config();
 const app = express();
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/station_owner", stationOwnerRoutes);
+app.use("/api/vehicle_owner", vehicleOwnerRoutes);
 app.use("/api/stations", stationRoutes);
 app.use('/api/vehicle', vehicleRoutes);
 
