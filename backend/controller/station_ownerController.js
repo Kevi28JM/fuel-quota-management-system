@@ -18,6 +18,11 @@ const loginUserController = async (req, res) => {
         if (!owner) {
             return res.status(401).json({ message: 'User not found' });
         }
+        // Check if the owner's status is "Approved"
+        const ownerStatus = owner.Status || owner.status;
+        if (ownerStatus !== "Approved") {
+            return res.status(403).json({ message: 'Station owner is not approved' });
+        }
         // Retrieve hashed password and convert Buffer to string if necessary
         let hashedPassword = owner.Password || owner.password;
         if (Buffer.isBuffer(hashedPassword)) {

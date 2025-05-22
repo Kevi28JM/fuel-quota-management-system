@@ -6,6 +6,7 @@ const stationRoutes = require("./routes/station");
 const vehicleRoutes = require('./routes/vehicle');
 const vehicleOwnerRoutes = require('./routes/vehicleOwnerroutes');
 const adminRoutes = require("./routes/adminroutes");
+const stationOwnersRoutes = require('./routes/stationOwnersRoutes');
 
 dotenv.config();
 const app = express();
@@ -18,6 +19,7 @@ app.use("/api/vehicle_owner", vehicleOwnerRoutes);
 app.use("/api/stations", stationRoutes);
 app.use("/api/admin", adminRoutes);
 app.use('/api/vehicle', vehicleRoutes);
+app.use("/api/station-owners", stationOwnersRoutes);
 
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
