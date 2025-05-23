@@ -11,7 +11,8 @@ exports.registerVehicle = async (req, res) => {
     ownerName,
     registeredDate,
     vehicleType,
-    color
+    color,
+    userId
   } = req.body;
 
   try {
@@ -68,11 +69,12 @@ exports.registerVehicle = async (req, res) => {
 
     // Insert new vehicle into the database (fuel_quota_management_system) using computedQuota
     await pool.execute(
-      `INSERT INTO vehicles (vehicleNumber, chassisNumber, engineNumber, ownerName, registeredDate, vehicleType, color, qrCode, quota)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO vehicles (vehicleNumber, chassisNumber, engineNumber, ownerName, registeredDate, vehicleType, color, qrCode, quota , userId)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? , ?)`,
       [
         vehicleNumber, chassisNumber, engineNumber, ownerName, registeredDate,
-        vehicleType, color, qrCode, computedQuota
+        vehicleType, color, qrCode, computedQuota , userId
+
       ]
     );
 

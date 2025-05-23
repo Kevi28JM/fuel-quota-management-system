@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react'; // Correct import
 import '../styles/VehicleRegister.css'; // Add a CSS file for styling
 import { registerVehicle } from '../services/vehicleService';
@@ -31,7 +31,9 @@ const handleSubmit = async (e) => {
       registeredDate: form.date,
       vehicleType: form.type,
       color: form.colour,
+      UserId : localStorage.getItem('userId')
     });
+    console.log(localStorage.getItem('userId'));
     setQr(res.qrCodeData); // Assume backend sends QR code data
     alert('Vehicle registered successfully!');
   } catch (err) {

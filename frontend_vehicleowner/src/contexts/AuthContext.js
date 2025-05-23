@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }) => {
     setToken(authToken);
     localStorage.setItem('user', JSON.stringify(userData));
     localStorage.setItem('token', authToken);
+      localStorage.setItem('userId', userData.id);
     navigate(redirectPath || '/'); // fallback route
   };
 
