@@ -14,24 +14,57 @@ const Signup = () => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      setMessage('Passwords do not match');
-      return;
-    }
-    const role = 'vehicleOwner';
-    const userData = { fullName, email, phone, nic, password, role };
-    try {
-      setLoading(true);
-      const response = await registerUser(userData);
-      setMessage(response.message || 'Registered successfully!');
-    } catch (error) {
-      setMessage(error.message || 'Registration failed.');
-    } finally {
-      setLoading(false);
-    }
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^\d{10}$/; 
+  const nicRegex = /^[0-9]{9}[vVxX]$|^[0-9]{12}$/; // Sri Lankan NIC format
+  const passwordRegex = /^.{6,}$/; 
+
+  if (!fullName.trim() || !email || !nic || !password || !confirmPassword) {
+    setMessage('Please fill in all required fields.');
+    return;
+  }
+
+  if (!emailRegex.test(email)) {
+    setMessage('Invalid email format.');
+    return;
+  }
+
+  if (phone && !phoneRegex.test(phone)) {
+    setMessage('Phone number must be 10 digits.');
+    return;
+  }
+
+  if (!nicRegex.test(nic)) {
+    setMessage('Invalid NIC format.');
+    return;
+  }
+
+  if (!passwordRegex.test(password)) {
+    setMessage('Password must be at least 6 characters.');
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    setMessage('Passwords do not match.');
+    return;
+  }
+
+  const role = 'vehicleOwner';
+  const userData = { fullName, email, phone, nic, password, role };
+
+  try {
+    setLoading(true);
+    const response = await registerUser(userData);
+    setMessage(response.message || 'Registered successfully!');
+  } catch (error) {
+    setMessage(error.message || 'Registration failed.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="signup-page">
