@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { registerStationOperator } = require('../controller/stationOperatorController');
+const stationOperatorController = require('../controller/stationOperatorController');
 
-router.post('/', registerStationOperator);
+// Register new station operator
+router.post('/', stationOperatorController.registerStationOperator);
+
+// Login station operator
+router.post('/login', stationOperatorController.loginStationOperator);
 
 module.exports = router;
