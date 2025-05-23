@@ -32,13 +32,14 @@ exports.approveOwner = async (ownerId) => {
 
     // 3. Insert into stations
     await connection.query(`
-      INSERT INTO stations (owner_id, name, location, capacity)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO stations (owner_id, name, location, capacity, contact)
+      VALUES (?, ?, ?, ?, ?)
     `, [
       owner.ID,
       owner.StationName,
       owner.Location,
-      owner.Capacity
+      owner.Capacity,
+      owner.Station_Contact
     ]);
 
     // 4. Delete from pending table
