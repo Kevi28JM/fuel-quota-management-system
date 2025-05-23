@@ -8,16 +8,7 @@ function StationPortal() {
         Welcome! This portal allows fuel station owners to manage operations, check fuel balances, and track vehicle quotas.
       </p>
 
-      <div className="row text-center">
-        <div className="col-md-4 mb-4">
-          <div className="card shadow-sm p-4">
-            <h5>Register Fuel Station</h5>
-            <Link to="/station/register" className="btn btn-success mt-3">
-              Register
-            </Link>
-          </div>
-        </div>
-
+      <div className="row">
         <div className="col-md-4 mb-4">
           <div className="card shadow-sm p-4">
             <h5>Fuel Pump Logs</h5>
