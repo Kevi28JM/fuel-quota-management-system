@@ -21,7 +21,8 @@ const registerUserController = async (req, res) => {
       password: owner.password,
       stationName: station.name,
       location: station.location,
-      capacity: station.capacity
+      capacity: station.capacity,
+      Station_Contact: station.contact,
     };
 
     const result = await createStationOwner(ownerData);
