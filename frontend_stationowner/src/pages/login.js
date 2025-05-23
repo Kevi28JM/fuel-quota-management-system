@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../services/stationOwnerServices'; // Adjust path if needed
+import { loginUser } from '../services/stationOwnerServices'; 
 import '../styles/Login.css'; // Import the CSS file
 
 const Login = () => {
@@ -18,6 +18,14 @@ const Login = () => {
       // Save token to localStorage (or cookies)
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
+
+    console.log("User object:", user);
+
+       // ✅ Get userId right after login
+    const userId = user?.OwnerID;
+    console.log("Logged in user ID:", userId);
+
+
 
       // Navigate to the role-based portal
       navigate(redirectPath);
