@@ -11,13 +11,15 @@ exports.registerVehicle = async (req, res) => {
     ownerName,
     registeredDate,
     vehicleType,
-    color,
+    color
   } = req.body;
 
   try {
     // Validate input
     if (
-      !vehicleNumber || !chassisNumber || !engineNumber || !ownerName || !registeredDate || !vehicleType ||!color) {
+      !vehicleNumber || !chassisNumber || !engineNumber || !ownerName ||
+      !registeredDate || !vehicleType || !color
+    ) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
@@ -42,16 +44,35 @@ exports.registerVehicle = async (req, res) => {
       return res.status(409).json({ message: 'Vehicle is already registered.' });
     }
 
+    // Compute quota based on vehicle type
+    let computedQuota;
+    if (vehicleType.toLowerCase() === 'car') {
+      computedQuota = 4;
+    } else if (vehicleType.toLowerCase() === 'van') {
+      computedQuota = 20;
+    } else if (vehicleType.toLowerCase() === 'truck') {
+      computedQuota = 30;
+    } else if (vehicleType.toLowerCase() === 'bus') {
+      computedQuota = 40;
+    } else if (vehicleType.toLowerCase() === 'motorcycle') {
+      computedQuota = 25;
+    } else if (vehicleType.toLowerCase() === 'three-wheeler') {
+      computedQuota = 35;
+    } else {
+      computedQuota = 0; 
+    }
+
     // Generate QR Code
     const qrCodeData = `Vehicle: ${vehicleNumber}, Owner: ${ownerName}`;
     const qrCode = await QRCode.toDataURL(qrCodeData);
 
-    // Insert new vehicle into the database (fuel_quota_management_system)
+    // Insert new vehicle into the database (fuel_quota_management_system) using computedQuota
     await pool.execute(
-      `INSERT INTO vehicles (vehicleNumber, chassisNumber, engineNumber, ownerName, registeredDate, vehicleType, color, qrCode)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO vehicles (vehicleNumber, chassisNumber, engineNumber, ownerName, registeredDate, vehicleType, color, qrCode, quota)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        vehicleNumber, chassisNumber,engineNumber,ownerName,registeredDate,vehicleType,color,qrCode,
+        vehicleNumber, chassisNumber, engineNumber, ownerName, registeredDate,
+        vehicleType, color, qrCode, computedQuota
       ]
     );
 
@@ -78,7 +99,7 @@ exports.fetchVehicles = async (req, res) => {
 
 // Get QR Code for a registered vehicle
 exports.getQRCode = async (req, res) => {
-  const {  vehicleID  } = req.params;
+  const { vehicleID } = req.params;
 
   try {
     const [vehicleRows] = await pool.execute(
@@ -97,13 +118,13 @@ exports.getQRCode = async (req, res) => {
   }
 };
 
-//Fetch all vehicles by owner
+// Fetch all vehicles by owner
 exports.getVehiclesByOwner = async (req, res) => {
   const { userId } = req.params;
 
   try {
     const [vehicleRows] = await pool.execute(
-      'SELECT id ,vehicleNumber FROM vehicles WHERE userId = ?',
+      'SELECT id, vehicleNumber FROM vehicles WHERE userId = ?',
       [userId]
     );
 
