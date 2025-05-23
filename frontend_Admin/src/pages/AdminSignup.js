@@ -19,26 +19,46 @@ const AdminSignup = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Optionally, add client-side validation for secretKey if needed
-    if (!formData.secretKey) {
-      setError('Secret key is required');
-      setSuccess('');
-      return;
-    }
-    try {
-      setLoading(true);
-      const response = await adminSignup(formData);
-      setSuccess(response.message || 'Signup successful!');
-      setError('');
-      console.log('Admin Signup Response:', response);
-    } catch (err) {
-      setError(err.message || 'Signup failed');
-      setSuccess('');
-    } finally {
-      setLoading(false);
-    }
-  };
+  e.preventDefault();
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const usernameRegex = /^[a-zA-Z0-9_]{3,}$/;
+
+  if (!formData.username.trim() || !formData.email.trim() || !formData.password.trim() || !formData.secretKey.trim()) {
+    setError('All fields are required and must not be empty');
+    setSuccess('');
+    return;
+  }
+
+  if (!usernameRegex.test(formData.username)) {
+    setError('Username must be at least 3 characters and contain only letters, numbers, or underscores');
+    return;
+  }
+
+  if (!emailRegex.test(formData.email)) {
+    setError('Invalid email format');
+    return;
+  }
+
+  if (formData.password.length < 6) {
+    setError('Password should be at least 6 characters');
+    return;
+  }
+
+  try {
+    setLoading(true);
+    const response = await adminSignup(formData);
+    setSuccess(response.message || 'Signup successful!');
+    setError('');
+    console.log('Admin Signup Response:', response);
+  } catch (err) {
+    setError(err.message || 'Signup failed');
+    setSuccess('');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="admin-signup-page">
