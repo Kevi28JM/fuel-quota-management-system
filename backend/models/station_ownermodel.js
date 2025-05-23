@@ -1,6 +1,7 @@
 const db = require('../config/db');
 const bcrypt = require('bcrypt');
 
+//create pending station owner
 const createStationOwner = async (ownerData) => {
     const { ownerName, email, phone, nic, password, stationName, location, capacity } = ownerData;
     try {

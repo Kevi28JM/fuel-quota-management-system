@@ -1,4 +1,4 @@
-// models/stationOperatorModel.js
+// insert pending station operator
 const db = require('../config/db');
 
 const createStationOperator = async (data) => {

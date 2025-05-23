@@ -2,6 +2,7 @@ const { createStationOwner, findStationOwnerByEmail } = require('../models/stati
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+//station owner signup
 const registerUserController = async (req, res) => {
     try {
         const result = await createStationOwner(req.body);
@@ -11,6 +12,7 @@ const registerUserController = async (req, res) => {
     }
 };
 
+//station owner login
 const loginUserController = async (req, res) => {
     const { email, password } = req.body;
     try {

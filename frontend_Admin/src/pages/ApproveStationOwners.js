@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  getPendingStationOwners, 
-  approveStationOwner, 
-  rejectStationOwner, 
-  removeStationOwner 
-} from '../services/stationOwnerService';
+import { getPendingStationOwners, approveStationOwner, rejectStationOwner, removeStationOwner } from '../services/stationOwnerService';
 import '../styles/ApproveStationOwners.css';
 
 function ApproveStationOwners() {
@@ -13,10 +8,11 @@ function ApproveStationOwners() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const fetchPendingOwners = async () => {
+   const fetchPendingOwners = async () => {
     try {
       const data = await getPendingStationOwners();
-      setOwners(data);
+      console.log('Fetched Owners:', data);
+      setOwners(data || []);
     } catch (err) {
       setError(err.response?.data?.message || 'Error fetching pending station owners');
     } finally {
@@ -46,15 +42,6 @@ function ApproveStationOwners() {
     }
   };
 
-  const handleRemove = async (ownerId) => {
-    try {
-      await removeStationOwner(ownerId);
-      setOwners(prev => prev.filter(owner => owner.id !== ownerId));
-    } catch (err) {
-      alert(err.response?.data?.message || 'Failed to remove station owner');
-    }
-  };
-
   return (
     <div className="approve-station-owners-container">
       <h1 className="title">Manage Station Owners</h1>
@@ -63,39 +50,43 @@ function ApproveStationOwners() {
       {!loading && owners.length === 0 && <p>No pending station owners for approval.</p>}
       {!loading && owners.length > 0 && (
         <table className="owners-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone Number</th>
-              <th>NIC Number</th>
-              <th style={{ textAlign: "center" }}>Status</th>
-              <th style={{ textAlign: "center" }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {owners.map(owner => (
-              <tr key={owner.id}>
-                <td>{owner.name}</td>
-                <td>{owner.email}</td>
-                <td>{owner.phoneNumber}</td>
-                <td>{owner.nicNumber}</td>
-                <td style={{ textAlign: "center" }}>{owner.status}</td>
-                <td style={{ textAlign: "center" }}>
-                  <button className="btn btn-success" onClick={() => handleApprove(owner.id)}>
-                    Approve
-                  </button>
-                  <button className="btn btn-warning" onClick={() => handleReject(owner.id)}>
-                    Reject
-                  </button>
-                  <button className="btn btn-danger" onClick={() => handleRemove(owner.id)}>
-                    Remove
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+  <thead>
+    <tr>
+      <th>Owner Name</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+      <th>NIC Number</th>
+      <th>Status</th>
+      <th>Station Name</th>
+      <th>Location</th>
+      <th>Capacity</th>
+      <th style={{ textAlign: "center" }}>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {owners.map(owner => (
+  <tr key={owner.ID}>
+    <td>{owner.OwnerName}</td>
+    <td>{owner.Email}</td>
+    <td>{owner.Phone}</td>
+    <td>{owner.NIC}</td>
+    <td style={{ textAlign: "center" }}>{owner.Status}</td>
+    <td>{owner.StationName}</td>
+    <td>{owner.Location}</td>
+    <td>{owner.Capacity}</td>
+    <td style={{ textAlign: "center" }}>
+      <button className="btn btn-success" onClick={() => handleApprove(owner.ID)}>
+        Approve
+      </button>
+      <button className="btn btn-warning" onClick={() => handleReject(owner.ID)}>
+        Reject
+      </button>
+    </td>
+  </tr>
+))}
+
+  </tbody>
+</table>
       )}
       <div className="back-link mt-4">
         <Link to="/admin" className="btn btn-secondary">
