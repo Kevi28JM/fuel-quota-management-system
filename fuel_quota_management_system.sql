@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2025 at 05:48 AM
+-- Generation Time: May 23, 2025 at 08:12 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -58,15 +58,9 @@ CREATE TABLE `pending_station_and_owner` (
   `Status` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
   `StationName` varchar(55) NOT NULL,
   `Location` varchar(105) NOT NULL,
-  `Capacity` int(11) NOT NULL
+  `Capacity` int(11) NOT NULL,
+  `Station_Contact` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `pending_station_and_owner`
---
-
-INSERT INTO `pending_station_and_owner` (`ID`, `OwnerName`, `Email`, `Phone`, `NIC`, `Password`, `RegistrationDate`, `Status`, `StationName`, `Location`, `Capacity`) VALUES
-(9, 'M.G. Hasindu Thirasara', 'hasinduthirasaramg@gmail.', '0717517940', '44444', '$2b$10$BK6wXmZEt2Q2a/g3qmKce.u3kJ0CXiPstBGlfCU8mzva7u2fc316C', '2025-05-23 00:45:58', 'Pending', 'yatiyana', 'yatiyana matara', 75000);
 
 -- --------------------------------------------------------
 
@@ -79,7 +73,6 @@ CREATE TABLE `stations` (
   `name` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
   `owner_id` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `contact` varchar(10) NOT NULL,
   `Capacity` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -88,16 +81,31 @@ CREATE TABLE `stations` (
 -- Dumping data for table `stations`
 --
 
-INSERT INTO `stations` (`id`, `name`, `location`, `owner_id`, `created_at`, `contact`, `Capacity`) VALUES
-(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-13 08:50:46', '0717594017', 0),
-(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 17:46:15', '0717594017', 0),
-(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 17:49:38', '0717594017', 0),
-(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 17:53:35', '0717594017', 0),
-(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 17:57:59', '0717594017', 0),
-(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 18:02:57', '0717594017', 0),
-(0, 'yy', 'yy', 3, '2025-05-22 18:11:44', 'yy', 0),
-(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 18:22:57', '0717594017', 0),
-(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 19:15:58', '0717594017', 0);
+INSERT INTO `stations` (`id`, `name`, `location`, `owner_id`, `contact`, `Capacity`) VALUES
+(1, 'maharagama', 'maharagama', 13, '', 98);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `station_operator`
+--
+
+CREATE TABLE `station_operator` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `nic` varchar(12) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `station_id` int(11) DEFAULT NULL,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `station_operator`
+--
+
+INSERT INTO `station_operator` (`id`, `name`, `nic`, `email`, `password`, `station_id`, `status`) VALUES
+(1, 'sayagi', '200967888677', 'aayagi@gmail.com', 'sayagigi', 12, 'pending');
 
 -- --------------------------------------------------------
 
@@ -121,10 +129,7 @@ CREATE TABLE `station_owner` (
 --
 
 INSERT INTO `station_owner` (`OwnerID`, `OwnerName`, `Email`, `Phone`, `NIC`, `Password`, `RegistrationDate`, `Status`) VALUES
-(1, 'M.G. Hasindu Thirasa', 'hasinduthirasaramg@gmail.com', '0717517940', '123456789123', 0x24326224313024444a31695244744a6d2f6f556331675257467a52332e5459562e325544784b49766530306e656f3962742f6e776e63416e3035544f, '2025-05-22 19:15:54', ''),
-(2, 'tharu hiru', 'tharu@gmail.com', '0717517940', '4444', 0x2432622431302472625675455870476a41783245615a42685a506161754b2e71334d346e5a484c64505533696a63497a6d454c2f786d66646f374675, '2025-05-22 19:30:37', ''),
-(3, 'hasi', 'hasi@gmail.com', '444', '444', 0x24326224313024642f4d66546659355a2e556c72443337647a77314d75347644582e476e4a4a4451433151594a4e3534375a7579796f5644574e3453, '2025-05-22 19:42:03', ''),
-(6, 'hasi', 'has@gmail.com', 'charith@gm', '4447', 0x24326224313024472f34635530766c50686b48743963353533553553757837754c46564a6f626c71726365382e33686e484c4e6c6f6e74414d454c43, '2025-05-22 22:57:07', '');
+(13, 'Tharushika Hirushani', 'tharushika@gmail.com', '0771294588', '200285700100', 0x24326224313024566558552f534d4a726d4a5538786d2f4158355a584f744769375642426663444f63717a70613834755875387a48365a744b655575, '2025-05-23 11:38:31', 'Approved');
 
 -- --------------------------------------------------------
 
@@ -193,6 +198,18 @@ ALTER TABLE `pending_station_and_owner`
   ADD UNIQUE KEY `Email` (`Email`);
 
 --
+-- Indexes for table `stations`
+--
+ALTER TABLE `stations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `station_operator`
+--
+ALTER TABLE `station_operator`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `station_owner`
 --
 ALTER TABLE `station_owner`
@@ -228,13 +245,25 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `pending_station_and_owner`
 --
 ALTER TABLE `pending_station_and_owner`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `stations`
+--
+ALTER TABLE `stations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `station_operator`
+--
+ALTER TABLE `station_operator`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `station_owner`
 --
 ALTER TABLE `station_owner`
-  MODIFY `OwnerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `OwnerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `vehicles`
