@@ -71,7 +71,21 @@ const loginStationOperator = async (req, res) => {
   }
 };
 
+const getStations = async (req, res) => {
+  try {
+    const stations = await StationOperator.getAllStations();
+    res.status(200).json(stations);
+    console.log('Fetched stations:', stations);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch stations'
+    });
+  }
+};
+
 module.exports = {
   registerStationOperator,
-  loginStationOperator
+  loginStationOperator,
+  getStations
 };
