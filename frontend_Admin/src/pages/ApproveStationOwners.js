@@ -24,14 +24,15 @@ function ApproveStationOwners() {
     fetchPendingOwners();
   }, []);
 
-  const handleApprove = async (ownerId) => {
-    try {
-      await approveStationOwner(ownerId);
-      setOwners(prev => prev.filter(owner => owner.id !== ownerId));
-    } catch (err) {
-      alert(err.response?.data?.message || 'Failed to approve station owner');
-    }
-  };
+ const handleApprove = async (ownerId) => {
+  try {
+    await approveStationOwner(ownerId);
+    setOwners(prev => prev.filter(owner => owner.ID !== ownerId));
+    alert('Station owner approved successfully.');
+  } catch (err) {
+    alert(err.response?.data?.message || 'Failed to approve station owner');
+  }
+};
 
   const handleReject = async (ownerId) => {
     try {

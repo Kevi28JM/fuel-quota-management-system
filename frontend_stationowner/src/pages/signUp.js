@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { registerUser } from '../services/stationOwnerServices';
-import { registerStation } from '../services/stationService';
 import '../styles/Signup.css';
 
 const TwoStepRegister = () => {
@@ -35,54 +34,54 @@ const TwoStepRegister = () => {
   };
 
   const handleStationSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setMessage({ text: '', type: '' });
-    
-    try {
-      const storedOwnerData = JSON.parse(localStorage.getItem('ownerData'));
-      if (!storedOwnerData) {
-        setMessage({ text: 'Missing owner data. Please complete step 1 first.', type: 'error' });
-        setIsLoading(false);
-        return;
-      }
+  e.preventDefault();
+  setIsLoading(true);
+  setMessage({ text: '', type: '' });
 
-      // Register Owner
-      const userResponse = await registerUser({
-        ownerName: storedOwnerData.name,
+  try {
+    const storedOwnerData = JSON.parse(localStorage.getItem('ownerData'));
+    if (!storedOwnerData) {
+      setMessage({ text: 'Missing owner data. Please complete step 1 first.', type: 'error' });
+      setIsLoading(false);
+      return;
+    }
+
+    // Combine both owner and station data
+    const combinedData = {
+      owner: {
+        name: storedOwnerData.name,
         email: storedOwnerData.email,
         phone: storedOwnerData.phone,
         nic: storedOwnerData.nic,
         password: storedOwnerData.password,
-        stationName: stationData.name,
-        location: stationData.location,
-        capacity: stationData.capacity || 0,
-      });
-
-      // Register Station
-      const stationResponse = await registerStation({
+      },
+      station: {
         name: stationData.name,
         location: stationData.location,
         contact: stationData.contact,
         capacity: stationData.capacity || 0,
-      });
+      }
+    };
 
-      setMessage({
-        text: `Registration successful! ${userResponse.message || ''} ${stationResponse.message || ''}`,
-        type: 'success'
-      });
+    // Send combined data to a single endpoint
+    const response = await registerUser(combinedData);
 
-      localStorage.removeItem('ownerData');
-      setStep(3);
-    } catch (err) {
-      setMessage({
-        text: err.message || 'Registration failed. Please try again.',
-        type: 'error'
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    setMessage({
+      text: `Registration successful! ${response.message || ''}`,
+      type: 'success'
+    });
+
+    localStorage.removeItem('ownerData');
+    setStep(3);
+  } catch (err) {
+    setMessage({
+      text: err.message || 'Registration failed. Please try again.',
+      type: 'error'
+    });
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const handleBack = () => {
     setStep(1);

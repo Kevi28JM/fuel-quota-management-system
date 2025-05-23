@@ -8,17 +8,12 @@ export const getPendingStationOwners = async () => {
 };
 
 export const approveStationOwner = async (ownerId) => {
-  const response = await axios.post(`${API_BASE_URL}/api/station-owners/approve`, { id: ownerId });
+  const response = await axios.post(`${API_BASE_URL}/api/station-owners/${ownerId}/approve`);
   return response.data;
 };
 
 export const rejectStationOwner = async (ownerId) => {
-  const response = await axios.post(`${API_BASE_URL}/api/station-owners/reject`, { id: ownerId });
+  const response = await axios.delete(`${API_BASE_URL}/api/station-owners/${ownerId}/reject`);
   return response.data;
 };
 
-export const removeStationOwner = async (ownerId) => {
-  // Using DELETE with the ownerId passed as a URL parameter
-  const response = await axios.delete(`${API_BASE_URL}/api/station-owners/remove/${ownerId}`);
-  return response.data;
-};

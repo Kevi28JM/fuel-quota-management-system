@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { getPendingStationOwners } = require('../controller/stationOwnerController');
+const stationOwnerController = require('../controller/stationOwnerController');
 
-// Get all pending station owners
-router.get('/pending', getPendingStationOwners);
+router.get('/pending', stationOwnerController.getPendingStationOwners);
+router.post('/:id/approve', stationOwnerController.approveStationOwner);
+router.delete('/:id/reject', stationOwnerController.rejectStationOwner);
 
 module.exports = router;

@@ -3,14 +3,35 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 //station owner signup
+// station_ownerController.js
+
 const registerUserController = async (req, res) => {
-    try {
-        const result = await createStationOwner(req.body);
-        res.status(201).json({ message: 'Registered successfully', ownerId: result.insertId });
-    } catch (error) {
-        res.status(500).json({ message: error.message || 'Registration failed.' });
+  try {
+    const { owner, station } = req.body;
+
+    if (!owner || !station) {
+      return res.status(400).json({ message: 'Owner and station data are required.' });
     }
+
+    const ownerData = {
+      ownerName: owner.name,
+      email: owner.email,
+      phone: owner.phone,
+      nic: owner.nic,
+      password: owner.password,
+      stationName: station.name,
+      location: station.location,
+      capacity: station.capacity
+    };
+
+    const result = await createStationOwner(ownerData);
+    res.status(201).json({ message: 'Registered successfully', ownerId: result.insertId });
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ message: error.message || 'Registration failed.' });
+  }
 };
+
 
 //station owner login
 const loginUserController = async (req, res) => {
