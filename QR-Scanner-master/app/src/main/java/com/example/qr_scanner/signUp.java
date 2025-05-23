@@ -44,6 +44,31 @@ public class signUp extends AppCompatActivity {
             String confirmPassword = et_confirm_password.getText().toString();
             String station = spinner_station.getText().toString();
 
+            // 1. NIC validation (old or new format)
+            if (!nic.matches("^(\\d{9}[vVxX]|\\d{12})$")) {
+                Toast.makeText(signUp.this, "Invalid Sri Lankan NIC number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // 2. Email validation
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(signUp.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // 3. Password length validation
+            if (password.length() < 8) {
+                Toast.makeText(signUp.this, "Password must be at least 8 characters", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // 4. Station ID numeric check
+            if (!station.matches("\\d+")) {
+                Toast.makeText(signUp.this, "Station ID must be a number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Password match check
             if (!password.equals(confirmPassword)) {
                 Toast.makeText(signUp.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                 return;
