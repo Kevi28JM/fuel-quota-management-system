@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="#0A192F">
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:id="@+id/main"
@@ -17,10 +17,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fuel Quota Management System"
-            android:textColor="#FFFFFF"
+            android:textColor="#1B2247"
             android:textSize="18sp"
             android:layout_gravity="center"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="50dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,6 +40,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:hint="Full Name"
+            android:textColor="#000000"
+            app:boxStrokeColor="#E94560"
+            app:hintTextColor="#E91E63"
             >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -56,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             app:boxStrokeColor="#E94560"
-            app:hintTextColor="#FFFFFF"
+            app:hintTextColor="#E91E63"
             app:boxStrokeWidth="1dp"
             >
 
@@ -65,30 +69,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="NIC"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textColorHint="#A8A8A8"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:boxStrokeColor="#E94560"
-            app:hintTextColor="#FFFFFF"
-            app:boxStrokeWidth="1dp"
-            >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Username"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#A8A8A8"
-                android:inputType="textPersonName" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -96,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             app:boxStrokeColor="#E94560"
-            app:hintTextColor="#FFFFFF"
+            app:hintTextColor="#E91E63"
             app:boxStrokeWidth="1dp"
             >
 
@@ -105,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textColorHint="#A8A8A8"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -116,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             app:boxStrokeColor="#E94560"
-            app:hintTextColor="#FFFFFF"
+            app:hintTextColor="#E91E63"
             app:boxStrokeWidth="1dp"
 
             app:passwordToggleEnabled="true"
@@ -127,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textColorHint="#A8A8A8"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -138,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             app:boxStrokeColor="#E94560"
-            app:hintTextColor="#FFFFFF"
+            app:hintTextColor="#E91E63"
             app:boxStrokeWidth="1dp"
 
             app:passwordToggleEnabled="true"
@@ -149,30 +135,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Confirm Password"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textColorHint="#A8A8A8"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Station Spinner -->
+        <!-- Creative Station Dropdown -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:hint="Select Station"
-            app:boxStrokeColor="#E94560"
-            app:hintTextColor="#FFFFFF"
-            app:boxStrokeWidth="1dp">
+            app:boxStrokeColor="@color/dropdown_stroke_color"
+            app:hintTextColor="@color/dropdown_hint_color"
+            app:boxStrokeWidth="1.5dp"
+            app:boxBackgroundMode="outline"
+            app:boxBackgroundColor="#FFFFFF"
+            app:endIconMode="dropdown_menu"
+            app:endIconTint="#E94560"
+            app:startIconTint="#E94560">
 
             <AutoCompleteTextView
                 android:id="@+id/spinner_stations"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 android:inputType="none"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textColorHint="#A8A8A8"
-                android:backgroundTint="#FFFFFF" />
+                android:background="@null"
+                android:dropDownHeight="300dp"
+                android:dropDownVerticalOffset="4dp"
+                android:dropDownHorizontalOffset="0dp"
+                android:dropDownSelector="#FFFFFF"
+                android:popupBackground="#FFFEFE"
+                android:popupElevation="8dp"
+                android:singleLine="true"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
