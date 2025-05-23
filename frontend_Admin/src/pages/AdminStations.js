@@ -30,17 +30,17 @@ const AdminStations = () => {
             <tr>
               <th>Station Name</th>
               <th>Location</th>
-              <th>Owner Name</th>
-              <th>Contact Number</th>
+              <th>contact Name</th>
+              <th>capacity</th>
             </tr>
           </thead>
           <tbody>
             {stations.map((station, index) => (
               <tr key={index}>
-                <td>{station.stationName}</td>
+                <td>{station.name}</td>
                 <td>{station.location}</td>
-                <td>{station.ownerName}</td>
-                <td>{station.contactNumber}</td>
+                <td>{station.contact}</td>
+                <td>{station.Capacity}</td>
               </tr>
             ))}
           </tbody>

@@ -7,7 +7,6 @@ import HomePage from './pages/HomePage';
 import StationPortal from './pages/StationPortal';
 import AdminPortal from './pages/AdminPortal';
 import Login from './pages/login';
-import StationLogs from './pages/StationLogs';
 import AdminStations from './pages/AdminStations';
 import AdminReports from './pages/AdminReports';
 import AdminVehicles from './pages/AdminVehicles';
@@ -28,7 +27,6 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/station" element={<StationPortal />} />
-            <Route path="/station/logs" element={<StationLogs />} />
             <Route path="/station/portal" element={<StationPortal />} />
             <Route path="/admin" element={<AdminPortal />} />
             <Route path="/admin/vehicles" element={<AdminVehicles />} />

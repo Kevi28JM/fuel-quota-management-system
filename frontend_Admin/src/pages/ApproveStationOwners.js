@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getPendingStationOwners, approveStationOwner, rejectStationOwner, removeStationOwner } from '../services/stationOwnerService';
+import { getPendingStationOwners, approveStationOwner, rejectStationOwner } from '../services/stationOwnerService';
 import '../styles/ApproveStationOwners.css';
 
 function ApproveStationOwners() {
