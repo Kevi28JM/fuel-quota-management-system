@@ -33,7 +33,6 @@ public class signUp extends AppCompatActivity {
         // Initialize views
         et_name = findViewById(R.id.et_name);
         et_nic = findViewById(R.id.et_nic);
-        et_username = findViewById(R.id.et_username);
         et_email = findViewById(R.id.et_email);
         et_password = findViewById(R.id.et_password);
         et_confirm_password = findViewById(R.id.et_confirm_password);
