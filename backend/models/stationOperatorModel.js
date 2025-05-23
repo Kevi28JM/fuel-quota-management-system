@@ -64,7 +64,19 @@ const StationOperator = {
       console.error('Error getting approved operator:', error);
       throw error;
     }
+  },
+  getAllStations: async () => {
+    try {
+      const [stations] = await db.query(
+        'SELECT id, name FROM stations'
+      );
+      return stations;
+    } catch (error) {
+      console.error("Error fetching stations:", error);
+      throw error;
+    }
   }
+
 };
 
 module.exports = StationOperator;

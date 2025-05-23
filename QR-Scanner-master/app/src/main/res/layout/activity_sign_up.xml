@@ -38,22 +38,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            app:boxStrokeColor="#E94560"
-            app:hintTextColor="#FFFFFF"
-            app:boxStrokeWidth="1dp"
-           >
+            android:hint="Full Name"
+            >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Full Name"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#A8A8A8"
-                android:inputType="textPersonName" />
-        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+
+    <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -163,19 +160,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
+            android:hint="Select Station"
             app:boxStrokeColor="#E94560"
             app:hintTextColor="#FFFFFF"
-            app:boxStrokeWidth="1dp"
-           >
+            app:boxStrokeWidth="1dp">
 
             <AutoCompleteTextView
                 android:id="@+id/spinner_stations"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Select Station"
+                android:inputType="none"
                 android:textColor="#FFFFFF"
-                android:textColorHint="#A8A8A8"/>
+                android:textColorHint="#A8A8A8"
+                android:backgroundTint="#FFFFFF" />
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- Sign Up Button -->
         <com.google.android.material.button.MaterialButton
