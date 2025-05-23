@@ -1,53 +1,117 @@
-// StationLogs.js
-
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { fetchStations, updateStationQuota } from '../services/stationService'; // Adjust the path if necessary
 
-const StationLogs = () => {
-  const [logs, setLogs] = useState([]);
+const AdminStations = () => {
+  const [stations, setStations] = useState([]);
   const [error, setError] = useState('');
+  const [selectedStation, setSelectedStation] = useState(null);
+  const [newQuota, setNewQuota] = useState('');
 
   useEffect(() => {
-    fetchLogs();
+    getStations();
   }, []);
 
-  const fetchLogs = async () => {
+  const getStations = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/station/logs');
-      setLogs(res.data);
+      const data = await fetchStations();
+      setStations(data);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleUpdateClick = (station) => {
+    setSelectedStation(station);
+    setNewQuota(station.Current_qatar || '');
+  };
+
+  const handleQuotaChange = (e) => {
+    setNewQuota(e.target.value);
+  };
+
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+    if (!selectedStation) return;
+    try {
+      // Call the service function for updating station quota
+      await updateStationQuota(selectedStation.id, newQuota);
+      // Refresh the stations list after update
+      getStations();
+      setSelectedStation(null);
+      setNewQuota('');
     } catch (err) {
       console.error(err);
-      setError('Failed to fetch logs.');
+      setError('Failed to update quota.');
     }
+  };
+
+  const handleCancel = () => {
+    setSelectedStation(null);
+    setNewQuota('');
   };
 
   return (
     <div style={styles.container}>
-      <h2>Fuel Pumping Logs</h2>
+      <h2>Registered Fuel Stations</h2>
 
       {error && <p style={styles.error}>{error}</p>}
 
-      {logs.length > 0 ? (
+      {stations.length > 0 ? (
         <table style={styles.table}>
           <thead>
             <tr>
-              <th>Vehicle Plate</th>
-              <th>Pumped Litres</th>
-              <th>Date & Time</th>
+              <th>Station Name</th>
+              <th>Location</th>
+              <th>Owner Name</th>
+              <th>Contact Number</th>
+              <th>Capacity</th>
+              <th>Current Quota</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {logs.map((log, index) => (
+            {stations.map((station, index) => (
               <tr key={index}>
-                <td>{log.vehiclePlate}</td>
-                <td>{log.pumpedLitres} L</td>
-                <td>{new Date(log.timestamp).toLocaleString()}</td>
+                <td>{station.name}</td>
+                <td>{station.location}</td>
+                <td>{station.owner_id}</td>
+                <td>{station.contact}</td>
+                <td>{station.capacity}</td>
+                <td>{station.Current_qatar}</td>
+                <td>
+                  <button onClick={() => handleUpdateClick(station)}>
+                    Update Quota
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       ) : (
-        <p>No logs found.</p>
+        <p>No stations found.</p>
+      )}
+
+      {selectedStation && (
+        <div style={styles.modalOverlay}>
+          <div style={styles.modalContent}>
+            <h3>Update Quota for {selectedStation.name}</h3>
+            <form onSubmit={handleUpdateSubmit}>
+              <input
+                type="number"
+                value={newQuota}
+                onChange={handleQuotaChange}
+                placeholder="Enter new quota"
+                required
+              />
+              <div style={styles.modalButtons}>
+                <button type="submit">Update</button>
+                <button type="button" onClick={handleCancel}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );
@@ -55,7 +119,7 @@ const StationLogs = () => {
 
 const styles = {
   container: {
-    maxWidth: '800px',
+    maxWidth: '900px',
     margin: 'auto',
     padding: '20px',
     textAlign: 'center',
@@ -68,15 +132,28 @@ const styles = {
     borderCollapse: 'collapse',
     marginTop: '20px',
   },
-  th: {
-    backgroundColor: '#f2f2f2',
-    padding: '10px',
-    border: '1px solid #ddd',
+  modalOverlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  td: {
-    padding: '10px',
-    border: '1px solid #ddd',
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: '20px',
+    borderRadius: '5px',
+    minWidth: '300px',
+  },
+  modalButtons: {
+    marginTop: '10px',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 };
 
-export default StationLogs;
+export default AdminStations;

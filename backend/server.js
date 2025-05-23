@@ -19,7 +19,7 @@ app.use(express.json());
 app.use('/stationOperator', stationOperatorRoute);
 app.use("/api/station_owner", stationOwnerRoutes);
 app.use("/api/vehicle_owner", vehicleOwnerRoutes);
-app.use("/api/stations", stationRoutes);
+app.use("/station", stationRoutes); 
 app.use("/api/admin", adminRoutes);
 app.use('/api/vehicle', vehicleRoutes);
 app.use("/api/station-owners", stationOwnersRoutes);

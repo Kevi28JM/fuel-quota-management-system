@@ -20,13 +20,34 @@ exports.registerStation = async (req, res) => {
   }
 };
 
-// Fetch all stations
+
 exports.fetchStations = async (req, res) => {
   try {
-    const [stations] = await pool.query('SELECT * FROM stations'); // Query to fetch all stations
+    const [stations] = await pool.query('SELECT * FROM stations');
     res.status(200).json(stations);
   } catch (err) {
     console.error('Error fetching stations:', err);
     res.status(500).json({ message: 'Failed to fetch stations.' });
+  }
+};
+
+exports.updateStationQuota = async (req, res) => {
+  const stationId = req.params.stationId;
+  const { Current_qatar } = req.body;
+  if (!stationId || Current_qatar === undefined) {
+    return res.status(400).json({ message: 'Station ID and new quota are required.' });
+  }
+  try {
+    const [result] = await pool.execute(
+      'UPDATE stations SET Current_qatar = ? WHERE id = ?',
+      [Current_qatar, stationId]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Station not found.' });
+    }
+    res.status(200).json({ message: 'Station quota updated successfully.' });
+  } catch (err) {
+    console.error('Error updating station quota:', err);
+    res.status(500).json({ message: 'Failed to update station quota.' });
   }
 };

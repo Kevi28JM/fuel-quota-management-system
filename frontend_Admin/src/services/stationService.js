@@ -22,11 +22,21 @@ export const registerStation = async (stationData) => {
 
 export const fetchStations = async () => {
   try {
-    const res = await axios.get(`${API_URL}/stations`); // Use the correct API URL
+    const res = await axios.get('http://localhost:5000/station'); // Adjust endpoint if needed
     return res.data;
   } catch (err) {
-    console.error(err);
-    throw new Error("Failed to fetch stations.");
+    throw new Error(err.response?.data?.message || 'Failed to fetch stations.');
+  }
+};
+
+export const updateStationQuota = async (stationId, newQuota) => {
+  try {
+    const res = await axios.put(`http://localhost:5000/station/updateQuota/${stationId}`, {
+      Current_qatar: newQuota,
+    });
+    return res.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || 'Failed to update station quota.');
   }
 };
 
