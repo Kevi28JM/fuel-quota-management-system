@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { getPendingWorkers, approveWorker, rejectWorker, removeWorker } from '../services/workersService';
+import '../styles/ApproveWorkers.css';
 
 function ApproveWorkers() {
   const [workers, setWorkers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchWorkers = async () => {
       setLoading(true);
       try {
-        // Use an environment variable for API base URL as per Azure best practices.
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/workers/pending`);
-        setWorkers(response.data);
+        const data = await getPendingWorkers();
+        console.log('Fetched Workers:', data);
+        setWorkers(data);
       } catch (err) {
         setError(err.response?.data?.message || 'Error fetching workers');
       } finally {
@@ -25,33 +26,74 @@ function ApproveWorkers() {
 
   const handleApprove = async (workerId) => {
     try {
-      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/workers/approve`, { id: workerId });
-      // Remove approved worker from UI list.
+      await approveWorker(workerId);
       setWorkers(prev => prev.filter(worker => worker.id !== workerId));
+      alert('Worker approved successfully.');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to approve worker');
     }
   };
 
+  const handleReject = async (workerId) => {
+    try {
+      await rejectWorker(workerId);
+      setWorkers(prev => prev.filter(worker => worker.id !== workerId));
+      alert('Worker rejected successfully.');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to reject worker');
+    }
+  };
+
+  const handleRemove = async (workerId) => {
+    try {
+      await removeWorker(workerId);
+      setWorkers(prev => prev.filter(worker => worker.id !== workerId));
+      alert('Worker removed successfully.');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to remove worker');
+    }
+  };
+
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-4">Approve Workers</h1>
+      <h1 className="text-center mb-4">Manage Workers</h1>
       {loading && <p className="text-center">Loading...</p>}
       {error && <p className="text-center text-danger">{error}</p>}
       {!loading && workers.length === 0 && <p className="text-center">No pending workers for approval.</p>}
-      <div className="row">
-        {workers.map(worker => (
-          <div className="col-md-4 mb-4" key={worker.id}>
-            <div className="card shadow-sm p-3">
-              <h5>{worker.name}</h5>
-              <p>{worker.email}</p>
-              <button className="btn btn-success" onClick={() => handleApprove(worker.id)}>
-                Approve
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+      {!loading && workers.length > 0 && (
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>NIC</th>
+              <th>Status</th>
+              <th style={{ textAlign: "center" }}>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {workers.map(worker => (
+              <tr key={worker.id}>
+                <td>{worker.name}</td>
+                <td>{worker.email}</td>
+                <td>{worker.nic}</td>
+                <td>{worker.status}</td>
+                <td style={{ textAlign: "center" }}>
+                  <button className="btn btn-success mr-2" onClick={() => handleApprove(worker.id)}>
+                    Approve
+                  </button>
+                  <button className="btn btn-warning mr-2" onClick={() => handleReject(worker.id)}>
+                    Reject
+                  </button>
+                  <button className="btn btn-danger" onClick={() => handleRemove(worker.id)}>
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
       <div className="text-center mt-4">
         <Link to="/station/portal" className="btn btn-secondary">
           Back to Portal
