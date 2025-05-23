@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2025 at 04:53 PM
+-- Generation Time: May 23, 2025 at 05:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,6 +44,33 @@ INSERT INTO `admins` (`id`, `username`, `email`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pending_station_and_owner`
+--
+
+CREATE TABLE `pending_station_and_owner` (
+  `ID` int(11) NOT NULL,
+  `OwnerName` varchar(25) NOT NULL,
+  `Email` varchar(25) NOT NULL,
+  `Phone` varchar(10) DEFAULT NULL,
+  `NIC` varchar(20) DEFAULT NULL,
+  `Password` varchar(255) NOT NULL,
+  `RegistrationDate` datetime DEFAULT NULL,
+  `Status` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
+  `StationName` varchar(55) NOT NULL,
+  `Location` varchar(105) NOT NULL,
+  `Capacity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pending_station_and_owner`
+--
+
+INSERT INTO `pending_station_and_owner` (`ID`, `OwnerName`, `Email`, `Phone`, `NIC`, `Password`, `RegistrationDate`, `Status`, `StationName`, `Location`, `Capacity`) VALUES
+(9, 'M.G. Hasindu Thirasara', 'hasinduthirasaramg@gmail.', '0717517940', '44444', '$2b$10$BK6wXmZEt2Q2a/g3qmKce.u3kJ0CXiPstBGlfCU8mzva7u2fc316C', '2025-05-23 00:45:58', 'Pending', 'yatiyana', 'yatiyana matara', 75000);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `stations`
 --
 
@@ -53,15 +80,24 @@ CREATE TABLE `stations` (
   `location` varchar(255) NOT NULL,
   `owner_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `contact` varchar(10) NOT NULL
+  `contact` varchar(10) NOT NULL,
+  `Capacity` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `stations`
 --
 
-INSERT INTO `stations` (`id`, `name`, `location`, `owner_id`, `created_at`, `contact`) VALUES
-(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-13 08:50:46', '0717594017');
+INSERT INTO `stations` (`id`, `name`, `location`, `owner_id`, `created_at`, `contact`, `Capacity`) VALUES
+(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-13 08:50:46', '0717594017', 0),
+(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 17:46:15', '0717594017', 0),
+(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 17:49:38', '0717594017', 0),
+(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 17:53:35', '0717594017', 0),
+(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 17:57:59', '0717594017', 0),
+(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 18:02:57', '0717594017', 0),
+(0, 'yy', 'yy', 3, '2025-05-22 18:11:44', 'yy', 0),
+(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 18:22:57', '0717594017', 0),
+(0, 'yatiyana', 'yatiyana matara', 3, '2025-05-22 19:15:58', '0717594017', 0);
 
 -- --------------------------------------------------------
 
@@ -77,7 +113,7 @@ CREATE TABLE `station_owner` (
   `NIC` varchar(20) NOT NULL,
   `Password` varbinary(255) NOT NULL,
   `RegistrationDate` datetime DEFAULT NULL,
-  `Status` varchar(20) DEFAULT 'Pending'
+  `Status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -85,9 +121,10 @@ CREATE TABLE `station_owner` (
 --
 
 INSERT INTO `station_owner` (`OwnerID`, `OwnerName`, `Email`, `Phone`, `NIC`, `Password`, `RegistrationDate`, `Status`) VALUES
-(1, 'M.G. Hasindu Thirasa', 'hasinduthirasaramg@gmail.com', '0717517940', '123456789123', 0x24326224313024444a31695244744a6d2f6f556331675257467a52332e5459562e325544784b49766530306e656f3962742f6e776e63416e3035544f, '2025-05-22 19:15:54', 'Pending'),
-(2, 'tharu hiru', 'tharu@gmail.com', '0717517940', '4444', 0x2432622431302472625675455870476a41783245615a42685a506161754b2e71334d346e5a484c64505533696a63497a6d454c2f786d66646f374675, '2025-05-22 19:30:37', 'Pending'),
-(3, 'hasi', 'hasi@gmail.com', '444', '444', 0x24326224313024642f4d66546659355a2e556c72443337647a77314d75347644582e476e4a4a4451433151594a4e3534375a7579796f5644574e3453, '2025-05-22 19:42:03', 'Pending');
+(1, 'M.G. Hasindu Thirasa', 'hasinduthirasaramg@gmail.com', '0717517940', '123456789123', 0x24326224313024444a31695244744a6d2f6f556331675257467a52332e5459562e325544784b49766530306e656f3962742f6e776e63416e3035544f, '2025-05-22 19:15:54', ''),
+(2, 'tharu hiru', 'tharu@gmail.com', '0717517940', '4444', 0x2432622431302472625675455870476a41783245615a42685a506161754b2e71334d346e5a484c64505533696a63497a6d454c2f786d66646f374675, '2025-05-22 19:30:37', ''),
+(3, 'hasi', 'hasi@gmail.com', '444', '444', 0x24326224313024642f4d66546659355a2e556c72443337647a77314d75347644582e476e4a4a4451433151594a4e3534375a7579796f5644574e3453, '2025-05-22 19:42:03', ''),
+(6, 'hasi', 'has@gmail.com', 'charith@gm', '4447', 0x24326224313024472f34635530766c50686b48743963353533553553757837754c46564a6f626c71726365382e33686e484c4e6c6f6e74414d454c43, '2025-05-22 22:57:07', '');
 
 -- --------------------------------------------------------
 
@@ -149,6 +186,13 @@ ALTER TABLE `admins`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indexes for table `pending_station_and_owner`
+--
+ALTER TABLE `pending_station_and_owner`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `Email` (`Email`);
+
+--
 -- Indexes for table `station_owner`
 --
 ALTER TABLE `station_owner`
@@ -181,10 +225,16 @@ ALTER TABLE `admins`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `pending_station_and_owner`
+--
+ALTER TABLE `pending_station_and_owner`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `station_owner`
 --
 ALTER TABLE `station_owner`
-  MODIFY `OwnerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `OwnerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `vehicles`
