@@ -85,12 +85,39 @@ exports.updateFuelQuota = async (req, res) => {
       await connection.rollback();
       return res.status(400).json({ message: 'Insufficient fuel quota' });
     }
+
+    // Get current station quota
+    const [stationData] = await connection.execute(
+      'SELECT current_qatar FROM stations WHERE id = ?',
+      [stationId]
+    );
+
+    if (stationData.length === 0) {
+      await connection.rollback();
+      return res.status(404).json({ message: 'Station not found' });
+    }
+
+    const stationQuota = stationData[0].current_qatar;
+    console.log('Retrieved station quota:', stationQuota);
+
+    // Check if there's enough quota at the station
+    if (stationQuota < litres) {
+      await connection.rollback();
+      return res.status(400).json({ message: 'Insufficient fuel stock at station' });
+    }
     
     // Update vehicle quota
     const newQuota = vehicle.quota - litres;
     await connection.execute(
       'UPDATE vehicles SET quota = ? WHERE id = ?',
       [newQuota, vehicleId]
+    );
+
+    // Update station quota
+    const updatedStationQuota = stationQuota - litres;
+    await connection.execute(
+      'UPDATE stations SET Current_qatar = ? WHERE id = ?',
+      [updatedStationQuota, stationId]
     );
     
     // Record transaction
