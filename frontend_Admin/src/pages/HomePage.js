@@ -7,7 +7,7 @@ const Home = () => {
     <div className="home">
       <div className="container">
         <div className="jumbotron">
-          <h1 className="title">Fuel Quota Management System - Admin Portal</h1>
+          <h1 className="title-ss">Fuel Quota Management System - Admin Portal</h1>
           <p className="subtitle">
             Efficiently manage and track fuel quotas with our comprehensive system.
           </p>
