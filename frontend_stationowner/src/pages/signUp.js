@@ -22,66 +22,103 @@ const TwoStepRegister = () => {
   const [message, setMessage] = useState({ text: '', type: '' });
   const [isLoading, setIsLoading] = useState(false);
 
+  const validateOwnerData = () => {
+    const { name, nic, email, phone, password, confirmPassword } = ownerData;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^(\+94|0)?[0-9]{9,10}$/;
+    const nicRegex = /^[0-9]{9}[vVxX]$|^[0-9]{12}$/;
+
+    if (!name.trim()) return 'Full Name is required';
+    if (!nicRegex.test(nic)) return 'NIC must be 9 digits followed by V/v/X/x or 12 digits';
+    if (!emailRegex.test(email)) return 'Invalid email format';
+    if (!phoneRegex.test(phone)) return 'Invalid phone number';
+    if (password.length < 6) return 'Password must be at least 6 characters long';
+    if (password !== confirmPassword) return 'Passwords do not match';
+
+    return null;
+  };
+
+  const validateStationData = () => {
+    const { name, location, contact, capacity } = stationData;
+    const phoneRegex = /^(\+94|0)?[0-9]{9,10}$/;
+    const numericCapacity = Number(capacity);
+
+    if (!name.trim()) return 'Station Name is required';
+    if (!location.trim()) return 'Location is required';
+    if (!phoneRegex.test(contact)) return 'Invalid contact number';
+    if (!capacity || isNaN(numericCapacity) || numericCapacity <= 0)
+      return 'Fuel capacity must be a positive number';
+
+    return null;
+  };
+
   const handleOwnerSubmit = (e) => {
     e.preventDefault();
-    if (ownerData.password !== ownerData.confirmPassword) {
-      setMessage({ text: 'Passwords do not match', type: 'error' });
+    const error = validateOwnerData();
+    if (error) {
+      setMessage({ text: error, type: 'error' });
       return;
     }
+
     localStorage.setItem('ownerData', JSON.stringify(ownerData));
     setMessage({ text: 'Owner information saved successfully!', type: 'success' });
     setTimeout(() => setStep(2), 1500);
   };
 
   const handleStationSubmit = async (e) => {
-  e.preventDefault();
-  setIsLoading(true);
-  setMessage({ text: '', type: '' });
+    e.preventDefault();
+    setIsLoading(true);
+    setMessage({ text: '', type: '' });
 
-  try {
-    const storedOwnerData = JSON.parse(localStorage.getItem('ownerData'));
-    if (!storedOwnerData) {
-      setMessage({ text: 'Missing owner data. Please complete step 1 first.', type: 'error' });
+    const error = validateStationData();
+    if (error) {
+      setMessage({ text: error, type: 'error' });
       setIsLoading(false);
       return;
     }
 
-    // Combine both owner and station data
-    const combinedData = {
-      owner: {
-        name: storedOwnerData.name,
-        email: storedOwnerData.email,
-        phone: storedOwnerData.phone,
-        nic: storedOwnerData.nic,
-        password: storedOwnerData.password,
-      },
-      station: {
-        name: stationData.name,
-        location: stationData.location,
-        contact: stationData.contact,
-        capacity: stationData.capacity || 0,
+    try {
+      const storedOwnerData = JSON.parse(localStorage.getItem('ownerData'));
+      if (!storedOwnerData) {
+        setMessage({ text: 'Missing owner data. Please complete step 1 first.', type: 'error' });
+        setIsLoading(false);
+        return;
       }
-    };
 
-    // Send combined data to a single endpoint
-    const response = await registerUser(combinedData);
+      const combinedData = {
+        owner: {
+          name: storedOwnerData.name,
+          email: storedOwnerData.email,
+          phone: storedOwnerData.phone,
+          nic: storedOwnerData.nic,
+          password: storedOwnerData.password,
+        },
+        station: {
+          name: stationData.name,
+          location: stationData.location,
+          contact: stationData.contact,
+          capacity: Number(stationData.capacity),
+        }
+      };
 
-    setMessage({
-      text: `Registration successful! ${response.message || ''}`,
-      type: 'success'
-    });
+      const response = await registerUser(combinedData);
 
-    localStorage.removeItem('ownerData');
-    setStep(3);
-  } catch (err) {
-    setMessage({
-      text: err.message || 'Registration failed. Please try again.',
-      type: 'error'
-    });
-  } finally {
-    setIsLoading(false);
-  }
-};
+      setMessage({
+        text: `Registration successful! ${response.message || ''}`,
+        type: 'success'
+      });
+
+      localStorage.removeItem('ownerData');
+      setStep(3);
+    } catch (err) {
+      setMessage({
+        text: err.message || 'Registration failed. Please try again.',
+        type: 'error'
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleBack = () => {
     setStep(1);
@@ -112,7 +149,7 @@ const TwoStepRegister = () => {
           <div className="signup-card">
             <h2>Create Your Account</h2>
             <p className="subtitle">First, let's set up your owner information</p>
-            
+
             <form onSubmit={handleOwnerSubmit} className="signup-form">
               <div className="form-group">
                 <label htmlFor="name">Full Name</label>
@@ -125,7 +162,7 @@ const TwoStepRegister = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="nic">NIC Number</label>
                 <input
@@ -137,7 +174,7 @@ const TwoStepRegister = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="email">Email Address</label>
                 <input
@@ -149,7 +186,7 @@ const TwoStepRegister = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="phone">Phone Number</label>
                 <input
@@ -161,7 +198,7 @@ const TwoStepRegister = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="password">Password</label>
                 <input
@@ -173,7 +210,7 @@ const TwoStepRegister = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="confirmPassword">Confirm Password</label>
                 <input
@@ -185,13 +222,13 @@ const TwoStepRegister = () => {
                   required
                 />
               </div>
-              
+
               {message.text && (
                 <div className={`message ${message.type}`}>
                   {message.text}
                 </div>
               )}
-              
+
               <button type="submit" className="primary-btn">
                 Continue to Station Details
               </button>
@@ -203,7 +240,7 @@ const TwoStepRegister = () => {
           <div className="signup-card">
             <h2>Station Information</h2>
             <p className="subtitle">Now, tell us about your charging station</p>
-            
+
             <form onSubmit={handleStationSubmit} className="signup-form">
               <div className="form-group">
                 <label htmlFor="stationName">Station Name</label>
@@ -216,7 +253,7 @@ const TwoStepRegister = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="location">Location</label>
                 <input
@@ -228,7 +265,7 @@ const TwoStepRegister = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="contact">Contact Number</label>
                 <input
@@ -240,7 +277,7 @@ const TwoStepRegister = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="capacity">Fuel Capacity (Liters)</label>
                 <input
@@ -252,13 +289,13 @@ const TwoStepRegister = () => {
                   required
                 />
               </div>
-              
+
               {message.text && (
                 <div className={`message ${message.type}`}>
                   {message.text}
                 </div>
               )}
-              
+
               <div className="button-group">
                 <button type="button" onClick={handleBack} className="secondary-btn">
                   Back
