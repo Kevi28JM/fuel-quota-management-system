@@ -1,18 +1,271 @@
 /* StationPortal.css */
-.btn-warning:hover {
-  background-color: #b09238 !important; /* Darker yellow/orange */
-  border-color: #a08535 !important;
-  color: white !important;
+
+.station-portal {
+  min-height: 100vh;
+  background-image: url('../assets/station-bg.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.btn-info:hover {
-  background-color: #117a8b !important; /* Darker teal */
-  border-color: #10707f !important;
-  color: white !important;
+.station-portal-container {
+  max-width: 800px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.708);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.btn-secondary:hover {
-  background-color: #545b62 !important; /* Darker gray */
-  border-color: #4e555b !important;
-  color: white !important;
+.station-portal-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a365d;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.station-portal-description {
+  font-size: 1.125rem;
+  color: #4a5568;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.station-portal-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.portal-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  position: relative;
+}
+
+.portal-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ff8a00, #e52e71, #9333ea, #3b82f6);
+  background-size: 300% 100%;
+  animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.portal-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.portal-card-content {
+  padding: 2.5rem 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.portal-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.portal-btn {
+  display: inline-block;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  min-width: 140px;
+}
+
+.portal-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.portal-btn:hover::before {
+  left: 100%;
+}
+
+.portal-btn-warning {
+  background: linear-gradient(135deg, #ff8a00 0%, #ff6b35 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 138, 0, 0.3);
+}
+
+.portal-btn-warning:hover {
+  background: linear-gradient(135deg, #ff6b35 0%, #e55527 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 138, 0, 0.4);
+}
+
+.portal-btn-info {
+  background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(49, 130, 206, 0.3);
+}
+
+.portal-btn-info:hover {
+  background: linear-gradient(135deg, #2c5282 0%, #2a4365 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(49, 130, 206, 0.4);
+}
+
+.portal-btn-secondary {
+  background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(113, 128, 150, 0.3);
+  margin-top: 1rem;
+}
+
+.portal-btn-secondary:hover {
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(113, 128, 150, 0.4);
+}
+
+.portal-footer {
+  border-top: 1px solid rgba(203, 213, 224, 0.5);
+  padding-top: 2rem;
+  margin-top: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .station-portal {
+    padding: 1rem;
+  }
+  
+  .station-portal-container {
+    padding: 2rem 1.5rem;
+  }
+  
+  .station-portal-title {
+    font-size: 2.25rem;
+  }
+  
+  .station-portal-description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .station-portal-cards {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .portal-card-content {
+    padding: 2rem 1.5rem;
+  }
+  
+  .portal-card-title {
+    font-size: 1.25rem;
+  }
+  
+  .portal-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .station-portal-container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .station-portal-title {
+    font-size: 1.875rem;
+  }
+  
+  .portal-card-content {
+    padding: 1.5rem 1rem;
+  }
+  
+  .portal-btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* Animation for enhanced visual appeal */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.station-portal-container {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.portal-card {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.portal-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+/* Fuel pump icons effect */
+.portal-card-title::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle;
 }
