@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import '../styles/ShowQRPage.css'; 
 
 function ShowQRPage() {
   const { user } = useAuth();
@@ -48,16 +49,51 @@ function ShowQRPage() {
     }
   };
 
-  return (
-    <div style={styles.container}>
-      <h2 style={styles.heading}>View Your Vehicle QR Code</h2>
+  const handlePrint = () => {
+    const printContent = document.getElementById('qr-code-container');
+    if (printContent) {
+      const WinPrint = window.open('', '', 'width=600,height=600');
+      WinPrint.document.write(`
+        <html>
+          <head>
+            <title>Print QR Code</title>
+            <style>
+              body { display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+              img { max-width: 100%; height: auto; }
+            </style>
+          </head>
+          <body>
+            ${printContent.innerHTML}
+          </body>
+        </html>
+      `);
+      WinPrint.document.close();
+      WinPrint.focus();
+      WinPrint.print();
+      WinPrint.close();
+    }
+  };
 
-      {error && <p style={styles.error}>{error}</p>}
+  const handleDownload = () => {
+    if (!qrData) return;
+    const link = document.createElement('a');
+    link.href = qrData;
+    link.download = 'qr_code.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <div className="qr-container">
+      <h2 className="qr-heading">View Your Vehicle QR Code</h2>
+
+      {error && <p className="qr-error">{error}</p>}
 
       <select
         value={selectedVehicleId}
         onChange={handleVehicleChange}
-        style={styles.select}
+        className="qr-select"
       >
         <option value="">-- Select a vehicle --</option>
         {vehicles.map((vehicle) => (
@@ -68,56 +104,20 @@ function ShowQRPage() {
       </select>
 
       {qrData && (
-        <div style={styles.card}>
-          <img src={qrData} alt="Vehicle QR Code" style={styles.image} />
-        </div>
+        <>
+          <div className="qr-card" id="qr-code-container">
+            <img src={qrData} alt="Vehicle QR Code" className="qr-image" />
+          </div>
+          <button onClick={handlePrint} className="qr-button" style={{ marginRight: '10px' }}>
+            Print QR Code
+          </button>
+          <button onClick={handleDownload} className="qr-button">
+            Download Image
+          </button>
+        </>
       )}
     </div>
   );
 }
-
-const styles = {
-  container: {
-    maxWidth: '600px',
-    margin: '40px auto',
-    padding: '30px 20px',
-    backgroundColor: '#fdfdfd',
-    borderRadius: '12px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-    textAlign: 'center',
-    fontFamily: 'Arial, sans-serif',
-  },
-  heading: {
-    marginBottom: '25px',
-    fontSize: '1.8rem',
-    color: '#333',
-  },
-  select: {
-    width: '100%',
-    padding: '12px',
-    fontSize: '1rem',
-    borderRadius: '6px',
-    border: '1px solid #ccc',
-    marginBottom: '20px',
-  },
-  error: {
-    color: '#d9534f',
-    marginBottom: '15px',
-    fontWeight: '500',
-  },
-  card: {
-    marginTop: '25px',
-    padding: '20px',
-    background: 'white',
-    borderRadius: '8px',
-    border: '1px solid #e0e0e0',
-    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
-    display: 'inline-block',
-  },
-  image: {
-    width: '256px',
-    height: '256px',
-  },
-};
 
 export default ShowQRPage;
