@@ -1,4 +1,4 @@
-import React, { use, useState } from 'react';
+import React, {useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react'; // Correct import
 import '../styles/VehicleRegister.css'; // Add a CSS file for styling
 import { registerVehicle } from '../services/vehicleService';

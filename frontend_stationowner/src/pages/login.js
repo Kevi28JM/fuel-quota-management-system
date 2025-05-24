@@ -1,33 +1,24 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../services/stationOwnerServices'; 
-import '../styles/Login.css'; // Import the CSS file
+import { useAuth } from '../context/AuthContext';
+import '../styles/Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const { login } = useAuth(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const { token, user, redirectPath } = await loginUser(email, password);
+      const { token, user, stationId, redirectPath } = await loginUser(email, password);
 
-      // Save token to localStorage (or cookies)
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      // ✅ Save to AuthContext
+      login(token, user, stationId);
 
-    console.log("User object:", user);
-
-       // ✅ Get userId right after login
-    const userId = user?.OwnerID;
-    console.log("Logged in user ID:", userId);
-
-
-
-      // Navigate to the role-based portal
       navigate(redirectPath);
     } catch (err) {
       setError(err.message || 'Login failed');
@@ -45,10 +36,9 @@ const Login = () => {
             {error && <div className="login-alert">{error}</div>}
             <form onSubmit={handleSubmit} className="login-form">
               <div className="login-form-group">
-                <label htmlFor="email" className="login-form-label">Email address</label>
+                <label htmlFor="email">Email address</label>
                 <input
                   type="email"
-                  className="login-form-control"
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -56,10 +46,9 @@ const Login = () => {
                 />
               </div>
               <div className="login-form-group">
-                <label htmlFor="password" className="login-form-label">Password</label>
+                <label htmlFor="password">Password</label>
                 <input
                   type="password"
-                  className="login-form-control"
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -69,9 +58,7 @@ const Login = () => {
               <button type="submit" className="login-btn">Login</button>
             </form>
             <div className="login-footer">
-              <p>
-                Don't have an account? <Link to="/signup">Sign up here</Link>
-              </p>
+              <p>Don't have an account? <Link to="/signup">Sign up here</Link></p>
             </div>
           </div>
         </div>

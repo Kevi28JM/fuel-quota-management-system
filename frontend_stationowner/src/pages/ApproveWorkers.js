@@ -2,27 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getPendingWorkers, approveWorker, rejectWorker, removeWorker } from '../services/workersService';
 import '../styles/ApproveWorkers.css';
+import { useAuth } from '../context/AuthContext';
 
 function ApproveWorkers() {
   const [workers, setWorkers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const { stationId } = useAuth();
 
   useEffect(() => {
-    const fetchWorkers = async () => {
-      setLoading(true);
-      try {
-        const data = await getPendingWorkers();
-        console.log('Fetched Workers:', data);
-        setWorkers(data);
-      } catch (err) {
-        setError(err.response?.data?.message || 'Error fetching workers');
-      } finally {
-        setLoading(false);
-      }
-    };
+    console.log("Station ID:", stationId); // ✅ Console the station ID when page loads
+  }, [stationId]);
+
+  useEffect(() => {
+  const fetchWorkers = async () => {
+    setLoading(true);
+    try {
+      const data = await getPendingWorkers(stationId); // Pass stationId here
+      console.log('Fetched Workers:', data);
+      setWorkers(data);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Error fetching workers');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (stationId) {
     fetchWorkers();
-  }, []);
+  }
+}, [stationId]); // re-fetch when stationId changes
+
 
   const handleApprove = async (workerId) => {
     try {
@@ -79,15 +89,9 @@ function ApproveWorkers() {
                 <td>{worker.nic}</td>
                 <td>{worker.status}</td>
                 <td style={{ textAlign: "center" }}>
-                  <button className="btn btn-success mr-2" onClick={() => handleApprove(worker.id)}>
-                    Approve
-                  </button>
-                  <button className="btn btn-warning mr-2" onClick={() => handleReject(worker.id)}>
-                    Reject
-                  </button>
-                  <button className="btn btn-danger" onClick={() => handleRemove(worker.id)}>
-                    Remove
-                  </button>
+                  <button className="btn btn-success mr-2" onClick={() => handleApprove(worker.id)}>Approve</button>
+                  <button className="btn btn-warning mr-2" onClick={() => handleReject(worker.id)}>Reject</button>
+                  <button className="btn btn-danger" onClick={() => handleRemove(worker.id)}>Remove</button>
                 </td>
               </tr>
             ))}
@@ -95,9 +99,7 @@ function ApproveWorkers() {
         </table>
       )}
       <div className="text-center mt-4">
-        <Link to="/station/portal" className="btn btn-secondary">
-          Back to Portal
-        </Link>
+        <Link to="/station/portal" className="btn btn-secondary">Back to Portal</Link>
       </div>
     </div>
   );

@@ -3,9 +3,11 @@ import axios from 'axios';
 // Use a default if the environment variable is not defined.
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
-export const getPendingWorkers = async () => {
-    const response = await axios.get(`${API_BASE_URL}/api/workers/pending`);
-    return response.data;
+export const getPendingWorkers = async (stationId) => {
+  const response = await axios.get(`${API_BASE_URL}/api/workers/pending`, {
+    params: { stationId },
+  });
+  return response.data;
 };
 
 export const approveWorker = async (workerId) => {

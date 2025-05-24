@@ -1,9 +1,8 @@
-const { createStationOwner, findStationOwnerByEmail } = require('../models/station_ownermodel');
+const { createStationOwner, findStationOwnerByEmail,findStationByOwnerId } = require('../models/station_ownermodel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 //station owner signup
-// station_ownerController.js
 
 const registerUserController = async (req, res) => {
   try {
@@ -42,12 +41,12 @@ const loginUserController = async (req, res) => {
         if (!owner) {
             return res.status(401).json({ message: 'User not found' });
         }
-        // Check if the owner's status is "Approved"
+
         const ownerStatus = owner.Status || owner.status;
         if (ownerStatus !== "Approved") {
             return res.status(403).json({ message: 'Station owner is not approved' });
         }
-        // Retrieve hashed password and convert Buffer to string if necessary
+
         let hashedPassword = owner.Password || owner.password;
         if (Buffer.isBuffer(hashedPassword)) {
             hashedPassword = hashedPassword.toString('utf8');
@@ -55,16 +54,30 @@ const loginUserController = async (req, res) => {
         if (!hashedPassword || typeof hashedPassword !== 'string') {
             throw new Error("Invalid password hash retrieved from database");
         }
+
         const isMatch = await bcrypt.compare(password, hashedPassword);
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
+
+        // Get station associated with the owner
+        const station = await findStationByOwnerId(owner.OwnerID);
+        if (!station) {
+            return res.status(404).json({ message: 'Station not found for this owner' });
+        }
+
         const token = jwt.sign(
             { id: owner.id, email: owner.Email || owner.email },
             process.env.JWT_SECRET || 'your_jwt_secret',
             { expiresIn: '1h' }
         );
-        res.status(200).json({ token, user: owner, redirectPath: '/station' });
+
+        res.status(200).json({
+            token,
+            user: owner,
+            stationId: station.id,
+            redirectPath: '/station'
+        });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ message: error.message || 'Login failed.' });

@@ -1,9 +1,16 @@
 const pool = require('../config/db');
 
 exports.getPendingWorkers = async (req, res) => {
+  const stationId = req.query.stationId;
+
+  if (!stationId) {
+    return res.status(400).json({ message: 'stationId is required' });
+  }
+
   try {
     const [rows] = await pool.execute(
-      "SELECT id, name, nic, email, status FROM station_operator WHERE status = 'pending'"
+      "SELECT id, name, nic, email, status FROM station_operator WHERE status = 'pending' AND station_id = ?",
+      [stationId]
     );
     res.status(200).json(rows);
   } catch (error) {

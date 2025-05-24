@@ -9,7 +9,7 @@ import Login from './pages/login';
 import Signup from './pages/signUp';
 import StationLogs from './pages/StationLogs';
 import ApproveWorkers from './pages/ApproveWorkers';
-
+import { AuthProvider } from './context/AuthContext';
 
 // Component imports
 import Navigation from './components/navigation';
@@ -17,7 +17,7 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <Router>
+    <Router><AuthProvider>
       <div className="d-flex flex-column min-vh-100">
         <Navigation />
         <main className="flex-grow-1">
@@ -35,7 +35,7 @@ function App() {
         </main>
         <Footer />
       </div>
-    </Router>
+    </AuthProvider></Router>
   );
 }
 
