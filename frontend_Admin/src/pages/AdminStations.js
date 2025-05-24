@@ -39,6 +39,13 @@ const AdminStations = () => {
     e.preventDefault();
     if (!selectedStation) return;
 
+    // Validate new quota: it must not be greater than the station's capacity
+    if (Number(newQuota) > Number(selectedStation.Capacity)) {
+      setError(`Quota cannot exceed Capacity (${selectedStation.Capacity}).`);
+      setTimeout(() => setError(''), 4000);
+      return;
+    }
+
     try {
       await updateStationQuota(selectedStation.id, newQuota);
       const data = await fetchStations();
@@ -122,6 +129,7 @@ const AdminStations = () => {
                 placeholder="Enter new quota"
                 required
                 min="0"
+                max={selectedStation.Capacity}
               />
               <div className="admin-stations-modal-buttons">
                 <button
