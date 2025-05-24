@@ -1,0 +1,18 @@
+/* StationPortal.css */
+.btn-warning:hover {
+  background-color: #b09238 !important; /* Darker yellow/orange */
+  border-color: #a08535 !important;
+  color: white !important;
+}
+
+.btn-info:hover {
+  background-color: #117a8b !important; /* Darker teal */
+  border-color: #10707f !important;
+  color: white !important;
+}
+
+.btn-secondary:hover {
+  background-color: #545b62 !important; /* Darker gray */
+  border-color: #4e555b !important;
+  color: white !important;
+}
