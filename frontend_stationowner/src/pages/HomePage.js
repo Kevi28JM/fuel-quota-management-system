@@ -8,9 +8,10 @@ const Home = () => {
       <div className="container">
         <div className="jumbotron">
           <h1 className="title">Fuel Quota Management System - Station Owner Portal</h1>
-          <p className="subtitle">
+          <p className="subtitle text-black">
             Efficiently manage and track fuel quotas with our comprehensive system.
-          </p>
+            </p>
+
           <hr className="divider" />
           <p className="description">
             Our system helps you monitor fuel usage, set quotas, and generate reports

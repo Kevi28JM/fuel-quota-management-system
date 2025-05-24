@@ -20,6 +20,11 @@
   background-repeat: no-repeat;
   min-height: 100vh; /* Ensure the background covers the full viewport height */
 }
+.subtitle {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
 
 .container {
   max-width: 1200px;
