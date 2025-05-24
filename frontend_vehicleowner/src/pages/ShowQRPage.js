@@ -18,13 +18,9 @@ function ShowQRPage() {
         if (Array.isArray(res.data)) {
           setVehicles(res.data);
         } else {
-          console.error('Expected an array but got:', res.data);
-          setVehicles([]);
           setError('Invalid response format from server.');
         }
       } catch (err) {
-        console.error('Failed to load vehicles:', err);
-        setVehicles([]);
         setError('Could not fetch your vehicles.');
       }
     };
@@ -48,20 +44,23 @@ function ShowQRPage() {
         setError('QR code not found for selected vehicle.');
       }
     } catch (err) {
-      console.error('Failed to fetch QR code:', err);
       setError('Could not fetch QR code for the selected vehicle.');
     }
   };
 
   return (
     <div style={styles.container}>
-      <h2>Your Vehicle QR Code</h2>
+      <h2 style={styles.heading}>View Your Vehicle QR Code</h2>
 
       {error && <p style={styles.error}>{error}</p>}
 
-      <select value={selectedVehicleId} onChange={handleVehicleChange} style={styles.select}>
+      <select
+        value={selectedVehicleId}
+        onChange={handleVehicleChange}
+        style={styles.select}
+      >
         <option value="">-- Select a vehicle --</option>
-        {Array.isArray(vehicles) && vehicles.map((vehicle) => (
+        {vehicles.map((vehicle) => (
           <option key={vehicle.id} value={vehicle.id}>
             {vehicle.vehicleNumber || `Vehicle ${vehicle.id}`}
           </option>
@@ -70,7 +69,7 @@ function ShowQRPage() {
 
       {qrData && (
         <div style={styles.card}>
-          <img src={qrData} alt="Vehicle QR Code" style={{ width: 256, height: 256 }} />
+          <img src={qrData} alt="Vehicle QR Code" style={styles.image} />
         </div>
       )}
     </div>
@@ -79,25 +78,45 @@ function ShowQRPage() {
 
 const styles = {
   container: {
-    maxWidth: '800px',
-    margin: 'auto',
-    padding: '20px',
+    maxWidth: '600px',
+    margin: '40px auto',
+    padding: '30px 20px',
+    backgroundColor: '#fdfdfd',
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
     textAlign: 'center',
+    fontFamily: 'Arial, sans-serif',
+  },
+  heading: {
+    marginBottom: '25px',
+    fontSize: '1.8rem',
+    color: '#333',
   },
   select: {
-    padding: '10px',
-    fontSize: '16px',
+    width: '100%',
+    padding: '12px',
+    fontSize: '1rem',
+    borderRadius: '6px',
+    border: '1px solid #ccc',
     marginBottom: '20px',
   },
   error: {
-    color: 'red',
+    color: '#d9534f',
+    marginBottom: '15px',
+    fontWeight: '500',
   },
   card: {
-    border: '1px solid #ccc',
-    padding: '15px',
-    marginTop: '20px',
+    marginTop: '25px',
+    padding: '20px',
+    background: 'white',
     borderRadius: '8px',
-    boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+    border: '1px solid #e0e0e0',
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+    display: 'inline-block',
+  },
+  image: {
+    width: '256px',
+    height: '256px',
   },
 };
 
