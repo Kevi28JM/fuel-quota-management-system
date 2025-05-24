@@ -5,10 +5,12 @@ import '../styles/AdminStations.css'; // Import the CSS file
 const AdminStations = () => {
   const [stations, setStations] = useState([]);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [selectedStation, setSelectedStation] = useState(null);
   const [newQuota, setNewQuota] = useState('');
   const [loading, setLoading] = useState(true);
 
+  // Get all stations from the database
   useEffect(() => {
     const getStations = async () => {
       try {
@@ -36,16 +38,22 @@ const AdminStations = () => {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     if (!selectedStation) return;
-    
+
     try {
       await updateStationQuota(selectedStation.id, newQuota);
       const data = await fetchStations();
       setStations(data);
-      setSelectedStation(null);
+      setSelectedStation(null); // Close modal only on success
       setNewQuota('');
+      setError('');
+      setSuccess('Quota updated successfully!');
+      setTimeout(() => setSuccess(''), 4000); // Hide after 4 seconds
     } catch (err) {
       console.error(err);
-      setError('Failed to update quota. Please try again.');
+      setSelectedStation(null); // Close modal on error
+      setNewQuota('');
+      setError(err.message || 'Failed to update quota. Please try again.');
+      setTimeout(() => setError(''), 4000); // Hide after 4 seconds
     }
   };
 
@@ -59,6 +67,7 @@ const AdminStations = () => {
       <h2 className="admin-stations-title">Registered Fuel Stations</h2>
 
       {error && <p className="admin-stations-error">{error}</p>}
+      {success && <p className="admin-stations-success">{success}</p>}
 
       {loading ? (
         <div className="admin-stations-loading">Loading stations...</div>
@@ -83,7 +92,7 @@ const AdminStations = () => {
                 <td>{station.Capacity}</td>
                 <td>{station.Current_qatar || 'N/A'}</td>
                 <td>
-                  <button 
+                  <button
                     className="admin-stations-button"
                     onClick={() => handleUpdateClick(station)}
                   >
@@ -115,15 +124,15 @@ const AdminStations = () => {
                 min="0"
               />
               <div className="admin-stations-modal-buttons">
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="admin-stations-button admin-stations-modal-cancel"
                   onClick={handleCancel}
                 >
                   Cancel
                 </button>
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="admin-stations-button admin-stations-modal-submit"
                 >
                   Update Quota

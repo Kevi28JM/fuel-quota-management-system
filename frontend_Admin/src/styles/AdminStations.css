@@ -171,6 +171,21 @@
   background-color: #c0392b;
 }
 
+.admin-stations-success {
+  color: green;
+  font-weight: bold;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.admin-stations-error {
+  color: red;
+  font-weight: bold;
+  margin: 10px 0;
+  text-align: center;
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .admin-stations-container {

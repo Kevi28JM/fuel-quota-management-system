@@ -8,7 +8,7 @@ const Navigation = () => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container">
         <Link className="navbar-brand" to="/">
-          <img src={logo} alt="Logo" className="navbar-logo" /> Fuel Quota Management
+          <img src={logo} alt="Logo" className="navbar-logo" /> Fuel Quota Management - Admin Portal
         </Link>
         <button
           className="navbar-toggler"

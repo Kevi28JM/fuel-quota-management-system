@@ -18,8 +18,7 @@ export const registerStation = async (stationData) => {
   }
 };
 
-
-
+// get all stations
 export const fetchStations = async () => {
   try {
     const res = await axios.get('http://localhost:5000/station'); // Adjust endpoint if needed
@@ -29,6 +28,7 @@ export const fetchStations = async () => {
   }
 };
 
+//update station quota
 export const updateStationQuota = async (stationId, newQuota) => {
   try {
     const res = await axios.put(`http://localhost:5000/station/updateQuota/${stationId}`, {
@@ -36,7 +36,8 @@ export const updateStationQuota = async (stationId, newQuota) => {
     });
     return res.data;
   } catch (err) {
-    throw new Error(err.response?.data?.message || 'Failed to update station quota.');
+    const message = err.response?.data?.message || 'Failed to update quota.';
+    throw new Error(message);
   }
 };
 
