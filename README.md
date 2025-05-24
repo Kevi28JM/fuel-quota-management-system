@@ -1,4 +1,5 @@
 # Fuel Quota Management System
+hai
 
 Welcome to the **Fuel Quota Management System** – a dynamic solution that combines innovation with reliability to help you manage fuel allocations and station operations. This repository is your gateway to an ecosystem that supports seamless interactions between station owners, vehicle owners, and administrative staff.
 
