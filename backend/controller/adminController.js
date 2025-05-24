@@ -1,6 +1,7 @@
 const { createAdmin, findAdminByEmail } = require('../models/adminmodel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const pool = require('../config/db');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY || 'default_secret_key';
@@ -28,6 +29,31 @@ if (secretKey !== ADMIN_SECRET_KEY) {
     }
 };
 
+const getAdminReports = async (req, res) => {
+  try {
+    // Get total vehicles
+    const [vehicles] = await pool.query('SELECT COUNT(*) as totalVehicles FROM vehicles');
+    // Get total stations
+    const [stations] = await pool.query('SELECT COUNT(*) as totalStations FROM stations');
+    // Get total fuel dispensed (sum of pumpedLitres from logs table)
+    let totalFuelDispensed = 0;
+    try {
+      const [logs] = await pool.query('SELECT SUM(pumpedLitres) as totalFuelDispensed FROM logs');
+      totalFuelDispensed = logs[0]?.totalFuelDispensed || 0;
+    } catch (e) {
+      totalFuelDispensed = 0;
+    }
+    res.json({
+      totalVehicles: vehicles[0]?.totalVehicles || 0,
+      totalStations: stations[0]?.totalStations || 0,
+      totalFuelDispensed: totalFuelDispensed || 0
+    });
+  } catch (err) {
+    console.error('Error generating admin reports:', err);
+    res.status(500).json({ message: 'Failed to generate reports.' });
+  }
+};
+
 const loginUserController = async (req, res) => {
     const { email, password } = req.body;
     
@@ -48,4 +74,4 @@ const loginUserController = async (req, res) => {
     }
 };
 
-module.exports = { adminSignup, loginUserController };
+module.exports = { adminSignup, loginUserController, getAdminReports };
