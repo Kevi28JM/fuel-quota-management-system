@@ -34,10 +34,22 @@ const findStationOwnerByEmail = async (email) => {
     }
 };
 
+const findPendingStationOwnerByEmail = async (email) => {
+    try {
+        const [owners] = await db.execute(
+            'SELECT * FROM Pending_station_and_owner WHERE Email = ?',
+            [email]
+        );
+        return owners[0];
+    } catch (error) {
+        throw error;
+    }
+};
+
 const findStationByOwnerId = async (ownerId) => {
     const [rows] = await db.query('SELECT * FROM stations WHERE owner_id = ?', [ownerId]);
     return rows[0]; // Assuming one station per owner
 };
 
 
-module.exports = { createStationOwner, findStationOwnerByEmail ,findStationByOwnerId};
+module.exports = { createStationOwner, findStationOwnerByEmail ,findStationByOwnerId , findPendingStationOwnerByEmail};
