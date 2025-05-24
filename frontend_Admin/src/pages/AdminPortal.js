@@ -32,7 +32,7 @@ function AdminPortal() {
         <div className="admin-portal-col col-md-4 mb-4">
           <div className="admin-portal-card card shadow-sm p-4">
             <h5 className="admin-portal-card-title">Fuel Distribution Reports</h5>
-            <Link className="admin-portal-btn btn btn-warning mt-3" to="/admin/reports">
+            <Link className="admin-portal-btn btn btn-warning1 mt-3" to="/admin/reports">
               View Reports
             </Link>
           </div>
