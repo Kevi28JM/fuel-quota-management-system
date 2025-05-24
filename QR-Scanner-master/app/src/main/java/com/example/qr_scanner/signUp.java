@@ -20,7 +20,7 @@ import retrofit2.Response;
 
 public class signUp extends AppCompatActivity {
 
-    EditText et_name, et_nic, et_username, et_email, et_password, et_confirm_password;
+    EditText et_name, et_nic, et_email, et_password, et_confirm_password;
     AutoCompleteTextView spinner_station;
     MaterialButton btn_signup;
     List<Station> stationList = new ArrayList<>();
@@ -82,7 +82,6 @@ public class signUp extends AppCompatActivity {
     private void validateAndRegister() {
         String name = et_name.getText().toString();
         String nic = et_nic.getText().toString();
-        String username = et_username.getText().toString();
         String email = et_email.getText().toString();
         String password = et_password.getText().toString();
         String confirmPassword = et_confirm_password.getText().toString();
@@ -127,7 +126,7 @@ public class signUp extends AppCompatActivity {
             return;
         }
 
-        PendingRequest request = new PendingRequest(name, nic, username, email, password, stationId);
+        PendingRequest request = new PendingRequest(name, nic, email, password, stationId);
         registerOperator(request);
     }
 
