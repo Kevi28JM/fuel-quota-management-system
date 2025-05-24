@@ -3,6 +3,7 @@ package com.example.qr_scanner;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,7 +68,14 @@ public class login extends AppCompatActivity {
                     if (loginResponse.isSuccess()) {
                         // Login successful
                         Toast.makeText(login.this, "Login successful", Toast.LENGTH_SHORT).show();
+
+                        // Debug logs
+                        Log.d("LoginDebug", "Operator ID: " + loginResponse.getOperator().getId());
+                        Log.d("LoginDebug", "Station ID: " + loginResponse.getOperator().getStationId());
+
                         Intent intent = new Intent(login.this, MainActivity.class);
+                        intent.putExtra("operatorId", loginResponse.getOperator().getId());
+                        intent.putExtra("stationId", loginResponse.getOperator().getStationId());
                         startActivity(intent);
                         finish();
                     } else {
