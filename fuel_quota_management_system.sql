@@ -184,6 +184,25 @@ INSERT INTO `vehicle_owners` (`id`, `full_name`, `email`, `phone`, `password`, `
 (1, 'M.G. Hasindu Thirasara', 'hasinduthirasaramg@gmail.com', '0717517940', '$2b$10$KiPXz/LbdJBk6jGUsNVlyup7pZ7kq9H7ndbsFb.D8l7.9A9NhtHFa', '44444');
 
 --
+
+    CREATE TABLE `fuel_transactions` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `vehicle_id` int(11) NOT NULL,
+      `station_id` int(11) NOT NULL,
+      `operator_id` int(11) NOT NULL,
+      `amount` decimal(10,2) NOT NULL,
+      `transaction_date` timestamp NOT NULL DEFAULT current_timestamp(),
+      `notification_sent` tinyint(1) DEFAULT 0,
+      PRIMARY KEY (`id`),
+      KEY `vehicle_id` (`vehicle_id`),
+      KEY `station_id` (`station_id`),
+      KEY `operator_id` (`operator_id`),
+      CONSTRAINT `fk_vehicle` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicles` (`id`),
+      CONSTRAINT `fk_station` FOREIGN KEY (`station_id`) REFERENCES `stations` (`id`),
+      CONSTRAINT `fk_operator` FOREIGN KEY (`operator_id`) REFERENCES `station_operator` (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
 -- Indexes for dumped tables
 --
 

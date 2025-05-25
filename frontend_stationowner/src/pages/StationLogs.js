@@ -1,20 +1,22 @@
-// StationLogs.js
-
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useAuth } from '../context/AuthContext'; // Assumes stationId is available from here
+import { getStationLogs } from '../services/stationLogService'; 
 
 const StationLogs = () => {
+  const { stationId } = useAuth(); // Correct: stationId directly available
   const [logs, setLogs] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchLogs();
-  }, []);
+    if (stationId) {
+      fetchLogs(stationId);
+    }
+  }, [stationId]); // Watch for changes in stationId
 
-  const fetchLogs = async () => {
+  const fetchLogs = async (id) => {
     try {
-      const res = await axios.get('http://localhost:5000/station/logs');
-      setLogs(res.data);
+      const res = await getStationLogs(id); 
+      setLogs(res);
     } catch (err) {
       console.error(err);
       setError('Failed to fetch logs.');
@@ -24,7 +26,6 @@ const StationLogs = () => {
   return (
     <div style={styles.container}>
       <h2>Fuel Pumping Logs</h2>
-
       {error && <p style={styles.error}>{error}</p>}
 
       {logs.length > 0 ? (
@@ -32,16 +33,20 @@ const StationLogs = () => {
           <thead>
             <tr>
               <th>Vehicle Plate</th>
+              <th>Owner</th>
               <th>Pumped Litres</th>
+              <th>Operator</th>
               <th>Date & Time</th>
             </tr>
           </thead>
           <tbody>
             {logs.map((log, index) => (
               <tr key={index}>
-                <td>{log.vehiclePlate}</td>
-                <td>{log.pumpedLitres} L</td>
-                <td>{new Date(log.timestamp).toLocaleString()}</td>
+                <td>{log.vehicleNumber}</td>
+                <td>{log.ownerName}</td>
+                <td>{log.amount} L</td>
+                <td>{log.operatorName}</td>
+                <td>{new Date(log.transaction_date).toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
@@ -55,7 +60,7 @@ const StationLogs = () => {
 
 const styles = {
   container: {
-    maxWidth: '800px',
+    maxWidth: '900px',
     margin: 'auto',
     padding: '20px',
     textAlign: 'center',
@@ -67,15 +72,6 @@ const styles = {
     width: '100%',
     borderCollapse: 'collapse',
     marginTop: '20px',
-  },
-  th: {
-    backgroundColor: '#f2f2f2',
-    padding: '10px',
-    border: '1px solid #ddd',
-  },
-  td: {
-    padding: '10px',
-    border: '1px solid #ddd',
   },
 };
 
