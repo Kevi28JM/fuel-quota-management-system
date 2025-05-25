@@ -39,18 +39,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Full Name"
-            android:textColor="#000000"
             app:boxStrokeColor="#E94560"
             app:hintTextColor="#E91E63"
+            app:boxStrokeWidth="1dp"
             >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:inputType="textPersonName" />
+            android:hint="Full Name"
+            android:textColor="#000000"
+            android:textColorHint="#A8A8A8"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
