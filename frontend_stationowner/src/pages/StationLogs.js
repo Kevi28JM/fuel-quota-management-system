@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext'; // Assumes stationId is available from here
-import { getStationLogs } from '../services/stationLogService'; 
+import { useAuth } from '../context/AuthContext';
+import { getStationLogs } from '../services/stationLogService';
 
 const StationLogs = () => {
-  const { stationId } = useAuth(); // Correct: stationId directly available
+  const { stationId } = useAuth();
   const [logs, setLogs] = useState([]);
+  const [currentQuota, setCurrentQuota] = useState(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
     if (stationId) {
       fetchLogs(stationId);
     }
-  }, [stationId]); // Watch for changes in stationId
+  }, [stationId]);
 
   const fetchLogs = async (id) => {
     try {
-      const res = await getStationLogs(id); 
+      const res = await getStationLogs(id);
       setLogs(res);
+      if (res.length > 0 && res[0].currentQuota !== undefined) {
+        setCurrentQuota(res[0].currentQuota);
+      }
     } catch (err) {
       console.error(err);
       setError('Failed to fetch logs.');
@@ -26,6 +30,9 @@ const StationLogs = () => {
   return (
     <div style={styles.container}>
       <h2>Fuel Pumping Logs</h2>
+      {currentQuota !== null && (
+        <p><strong>Current Quota:</strong> {currentQuota} Litres</p>
+      )}
       {error && <p style={styles.error}>{error}</p>}
 
       {logs.length > 0 ? (
