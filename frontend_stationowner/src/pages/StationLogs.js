@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { getStationLogs } from '../services/stationLogService';
+import '../styles/stationLogs.css'; 
 
 const StationLogs = () => {
   const { stationId } = useAuth();
   const [logs, setLogs] = useState([]);
   const [currentQuota, setCurrentQuota] = useState(null);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (stationId) {
@@ -15,6 +17,7 @@ const StationLogs = () => {
   }, [stationId]);
 
   const fetchLogs = async (id) => {
+    setIsLoading(true);
     try {
       const res = await getStationLogs(id);
       setLogs(res);
@@ -23,61 +26,68 @@ const StationLogs = () => {
       }
     } catch (err) {
       console.error(err);
-      setError('Failed to fetch logs.');
+      setError('Failed to fetch logs. Please try again later.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div style={styles.container}>
-      <h2>Fuel Pumping Logs</h2>
-      {currentQuota !== null && (
-        <p><strong>Current Quota:</strong> {currentQuota} Litres</p>
-      )}
-      {error && <p style={styles.error}>{error}</p>}
+    <div className="station-logs-container">
+      <div className="station-logs-header">
+        <h2 className="station-logs-title">Fuel Dispensing Logs</h2>
+        <p className="station-logs-subtitle">Track all fuel transactions at your station</p>
+      </div>
 
-      {logs.length > 0 ? (
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              <th>Vehicle Plate</th>
-              <th>Pumped Litres</th>
-              <th>Operator</th>
-              <th>Date & Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            {logs.map((log, index) => (
-              <tr key={index}>
-                <td>{log.vehicleNumber}</td>
-                <td>{log.amount} L</td>
-                <td>{log.operatorName}</td>
-                <td>{new Date(log.transaction_date).toLocaleString()}</td>
+      {currentQuota !== null && (
+        <div className="quota-display">
+          <span className="quota-label">Remaining Monthly Quota:</span>
+          <span className="quota-value">{currentQuota} Litres</span>
+        </div>
+      )}
+
+      {error && (
+        <div className="error-message">
+          <span className="error-icon">⚠️</span>
+          {error}
+        </div>
+      )}
+
+      {isLoading ? (
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Loading logs...</p>
+        </div>
+      ) : logs.length > 0 ? (
+        <div className="logs-table-container">
+          <table className="logs-table">
+            <thead>
+              <tr>
+                <th className="table-header vehicle-col">Vehicle Plate</th>
+                <th className="table-header amount-col">Dispensed (L)</th>
+                <th className="table-header operator-col">Operator</th>
+                <th className="table-header date-col">Transaction Date</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {logs.map((log, index) => (
+                <tr key={index} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
+                  <td className="table-data vehicle-data">{log.vehicleNumber}</td>
+                  <td className="table-data amount-data">{log.amount} L</td>
+                  <td className="table-data operator-data">{log.operatorName}</td>
+                  <td className="table-data date-data">{new Date(log.transaction_date).toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : (
-        <p>No logs found.</p>
+        <div className="no-logs-message">
+          <p>No dispensing logs found for this station.</p>
+        </div>
       )}
     </div>
   );
-};
-
-const styles = {
-  container: {
-    maxWidth: '900px',
-    margin: 'auto',
-    padding: '20px',
-    textAlign: 'center',
-  },
-  error: {
-    color: 'red',
-  },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-    marginTop: '20px',
-  },
 };
 
 export default StationLogs;
