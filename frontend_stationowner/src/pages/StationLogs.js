@@ -33,7 +33,6 @@ const StationLogs = () => {
           <thead>
             <tr>
               <th>Vehicle Plate</th>
-              <th>Owner</th>
               <th>Pumped Litres</th>
               <th>Operator</th>
               <th>Date & Time</th>
@@ -43,7 +42,6 @@ const StationLogs = () => {
             {logs.map((log, index) => (
               <tr key={index}>
                 <td>{log.vehicleNumber}</td>
-                <td>{log.ownerName}</td>
                 <td>{log.amount} L</td>
                 <td>{log.operatorName}</td>
                 <td>{new Date(log.transaction_date).toLocaleString()}</td>
