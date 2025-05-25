@@ -29,30 +29,43 @@ if (secretKey !== ADMIN_SECRET_KEY) {
     }
 };
 
+// adminController.js
 const getAdminReports = async (req, res) => {
+  const { start, end } = req.query;
+
   try {
-    // Get total vehicles
-    const [vehicles] = await pool.query('SELECT COUNT(*) as totalVehicles FROM vehicles');
-    // Get total stations
-    const [stations] = await pool.query('SELECT COUNT(*) as totalStations FROM stations');
-    // Get total fuel dispensed (sum of pumpedLitres from logs table)
-    let totalFuelDispensed = 0;
-    try {
-      const [logs] = await pool.query('SELECT SUM(pumpedLitres) as totalFuelDispensed FROM logs');
-      totalFuelDispensed = logs[0]?.totalFuelDispensed || 0;
-    } catch (e) {
-      totalFuelDispensed = 0;
-    }
+    const [summary] = await pool.query(
+      `SELECT 
+        COUNT(DISTINCT vehicle_id) AS totalVehicles,
+        SUM(amount) AS totalFuelDispensed
+       FROM fuel_transactions
+       WHERE transaction_date BETWEEN ? AND ?`,
+      [start, end]
+    );
+
+    const [stations] = await pool.query(
+      `SELECT 
+        s.name AS stationName,
+        SUM(ft.amount) AS totalDispensed
+       FROM fuel_transactions ft
+       JOIN stations s ON ft.station_id = s.id
+       WHERE ft.transaction_date BETWEEN ? AND ?
+       GROUP BY ft.station_id`,
+      [start, end]
+    );
+
     res.json({
-      totalVehicles: vehicles[0]?.totalVehicles || 0,
-      totalStations: stations[0]?.totalStations || 0,
-      totalFuelDispensed: totalFuelDispensed || 0
+      totalVehicles: summary[0]?.totalVehicles || 0,
+      totalFuelDispensed: summary[0]?.totalFuelDispensed || 0,
+      stationWise: stations || [],
     });
   } catch (err) {
     console.error('Error generating admin reports:', err);
     res.status(500).json({ message: 'Failed to generate reports.' });
   }
 };
+
+
 
 const loginUserController = async (req, res) => {
     const { email, password } = req.body;
