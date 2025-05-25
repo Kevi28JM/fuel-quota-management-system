@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../styles/AdminReports.css';
 
 const AdminReports = () => {
   const [reports, setReports] = useState({});
@@ -7,17 +8,22 @@ const AdminReports = () => {
   const [error, setError] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchReports = async () => {
+    setIsLoading(true);
     try {
       const res = await axios.get('http://localhost:5000/api/admin/reports', {
         params: { start: startDate, end: endDate },
       });
       setReports(res.data);
       setStationData(res.data.stationWise);
+      setError('');
     } catch (err) {
       console.error(err);
-      setError('Failed to fetch reports.');
+      setError('Failed to fetch reports. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -28,130 +34,110 @@ const AdminReports = () => {
   }, []);
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.title}>System Reports</h2>
-
-      <div style={{ marginBottom: '20px' }}>
-        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} style={{ marginLeft: '10px' }} />
-        <button onClick={fetchReports} style={{ marginLeft: '15px' }}>Get Report</button>
+    <div className="admin-reports-container">
+      <div className="admin-reports-header">
+        <h1 className="admin-reports-main-title">Fuel Quota Management System</h1>
       </div>
 
-      {error && <p style={styles.error}>{error}</p>}
-
-      <div style={styles.cards}>
-        <div style={styles.card}>
-          <h3 style={styles.cardTitle}>Vehicles Pumped Fuel</h3>
-          <p style={styles.reportNumber}>{reports.totalVehicles || 0}</p>
-        </div>
-        <div style={styles.card}>
-          <h3 style={styles.cardTitle}>Total Fuel Dispensed (Litres)</h3>
-          <p style={styles.reportNumber}>{reports.totalFuelDispensed || 0}</p>
+      <div className="reports-control-panel">
+        <h3 className="control-panel-title">Generate Custom Report</h3>
+        <div className="date-filters">
+          <div className="date-input-group">
+            <label htmlFor="startDate" className="date-label">From:</label>
+            <input
+              type="date"
+              id="startDate"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="date-input"
+            />
+          </div>
+          <div className="date-input-group">
+            <label htmlFor="endDate" className="date-label">To:</label>
+            <input
+              type="date"
+              id="endDate"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="date-input"
+            />
+          </div>
+          <button
+            onClick={fetchReports}
+            className="generate-report-btn"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Generating...' : 'Generate Report'}
+          </button>
         </div>
       </div>
 
-      <h3 style={{ marginTop: '40px' }}>Fuel Dispensed by Station</h3>
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th style={styles.tableHeader}>Station</th>
-            <th style={styles.tableHeader}>Total Litres</th>
-          </tr>
-        </thead>
-        <tbody>
-          {stationData.map((station, idx) => (
-            <tr key={idx}>
-              <td style={styles.tableCell}>{station.stationName}</td>
-              <td style={styles.tableCell}>{station.totalDispensed}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {error && (
+        <div className="error-alert">
+          <span className="error-icon">!</span>
+          {error}
+        </div>
+      )}
+
+      <div className="summary-cards-container">
+        <div className="summary-card">
+          <div className="card-icon">🚗</div>
+          <h3 className="card-title">Vehicles Served</h3>
+          <p className="card-value">{reports.totalVehicles || 0}</p>
+          <p className="card-description">Total vehicles that received fuel</p>
+        </div>
+        <div className="summary-card accent-card">
+          <div className="card-icon">⛽</div>
+          <h3 className="card-title">Fuel Dispensed</h3>
+          <p className="card-value">{reports.totalFuelDispensed || 0} L</p>
+          <p className="card-description">Total litres distributed</p>
+        </div>
+        <div className="summary-card">
+          <div className="card-icon">🏭</div>
+          <h3 className="card-title">Active Stations</h3>
+          <p className="card-value">{stationData.length || 0}</p>
+          <p className="card-description">Stations with activity</p>
+        </div>
+      </div>
+
+      <div className="station-breakdown-section">
+        <h3 className="breakdown-title">
+          <span className="title-icon">📊</span>
+          Station-wise Fuel Distribution
+        </h3>
+        <div className="table-container">
+          <table className="station-breakdown-table">
+            <thead>
+              <tr>
+                <th className="table-header">Station Name</th>
+                <th className="table-header">Location</th>
+                <th className="table-header">Fuel Dispensed (L)</th>
+                <th className="table-header">Vehicles Served</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stationData.length > 0 ? (
+                stationData.map((station, idx) => (
+                  <tr key={idx} className={idx % 2 === 0 ? 'even-row' : 'odd-row'}>
+                    <td className="table-data">{station.stationName}</td>
+                    <td className="table-data">{station.location || 'N/A'}</td>
+                    <td className="table-data highlight-data">{station.totalDispensed}</td>
+                    <td className="table-data">{station.vehicleCount || 0}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr className="no-data-row">
+                  <td colSpan="4" className="no-data-message">
+                    No station data available for the selected period
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };
-
-const styles = {
-  container: {
-    maxWidth: '1100px',
-    margin: 'auto',
-    padding: '40px 20px',
-    textAlign: 'center',
-    background: 'linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%)',
-    borderRadius: '18px',
-    boxShadow: '0 8px 32px rgba(31, 38, 135, 0.15)',
-  },
-  title: { fontSize: '2.5rem', fontWeight: 700, marginBottom: '20px' },
-  error: { color: 'red', fontWeight: 600 },
-  filterSection: {
-    marginBottom: '30px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '20px',
-  },
-  fetchButton: {
-    padding: '10px 20px',
-    backgroundColor: '#1d4ed8',
-    color: 'white',
-    border: 'none',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    fontWeight: 'bold',
-  },
-  cards: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '40px',
-    flexWrap: 'wrap',
-    marginBottom: '40px',
-  },
-  card: {
-    background: 'white',
-    padding: '30px',
-    borderRadius: '16px',
-    width: '280px',
-    boxShadow: '0 4px 24px rgba(60,72,88,0.1)',
-  },
-  cardTitle: { fontSize: '1.3rem', fontWeight: 600, marginBottom: '15px' },
-  reportNumber: {
-    fontSize: '3rem',
-    fontWeight: 900,
-    color: '#1d4ed8',
-  },
-  breakdown: {
-    marginTop: '40px',
-    textAlign: 'left',
-  },
-  breakdownTitle: {
-    fontSize: '1.8rem',
-    fontWeight: 700,
-    marginBottom: '10px',
-  },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-  },
-  tableRow: {
-    borderBottom: '1px solid #ccc',
-  },
-};
-styles.table = {
-  width: '100%',
-  marginTop: '20px',
-  borderCollapse: 'collapse',
-};
-
-styles.tableHeader = {
-  background: '#f1f5f9',
-  padding: '12px',
-  border: '1px solid #cbd5e1',
-};
-
-styles.tableCell = {
-  padding: '12px',
-  border: '1px solid #e2e8f0',
-};
-
 
 export default AdminReports;

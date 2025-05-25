@@ -1,0 +1,269 @@
+/* Base Styles */
+.admin-reports-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header Styles */
+.admin-reports-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-reports-main-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 0.5rem;
+}
+
+.admin-reports-subtitle {
+  font-size: 1.25rem;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+/* Control Panel Styles */
+.reports-control-panel {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.control-panel-title {
+  font-size: 1.25rem;
+  color: #1e3a8a;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.date-filters {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.date-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.date-label {
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.date-input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.generate-report-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: auto;
+}
+
+.generate-report-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.generate-report-btn:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+/* Error Styles */
+.error-alert {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-icon {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* Summary Cards Styles */
+.summary-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.summary-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-top: 4px solid #2563eb;
+  transition: transform 0.2s;
+}
+
+.summary-card:hover {
+  transform: translateY(-5px);
+}
+
+.accent-card {
+  border-top-color: #10b981;
+}
+
+.card-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.card-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin: 0.5rem 0;
+}
+
+.accent-card .card-value {
+  color: #10b981;
+}
+
+.card-description {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Table Styles */
+.station-breakdown-section {
+  margin-top: 2rem;
+}
+
+.breakdown-title {
+  font-size: 1.5rem;
+  color: #1e3a8a;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.title-icon {
+  font-size: 1.8rem;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.station-breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.table-header {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.table-data {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: #4b5563;
+}
+
+.highlight-data {
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+.even-row {
+  background-color: white;
+}
+
+.odd-row {
+  background-color: #f8fafc;
+}
+
+.no-data-row {
+  background-color: #f8fafc;
+}
+
+.no-data-message {
+  text-align: center;
+  padding: 2rem;
+  color: #64748b;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .admin-reports-container {
+    padding: 1rem;
+  }
+
+  .admin-reports-main-title {
+    font-size: 2rem;
+  }
+
+  .date-filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .date-input-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .generate-report-btn {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .summary-cards-container {
+    grid-template-columns: 1fr;
+  }
+}

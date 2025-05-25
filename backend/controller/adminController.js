@@ -45,7 +45,7 @@ const getAdminReports = async (req, res) => {
 
     const [stations] = await pool.query(
       `SELECT 
-        s.name AS stationName,
+        s.name AS stationName, location,
         SUM(ft.amount) AS totalDispensed
        FROM fuel_transactions ft
        JOIN stations s ON ft.station_id = s.id
